@@ -1,7 +1,13 @@
 {
   "pavadinimas": "Mūsų trasos",
-  "atnaujinta": "2026-10-01",
+  "atnaujinta": "2026-10-02",
   "trasos": [
+    {
+      "id": "testas",
+      "pavadinimas": "Testas",
+      "data": "2026-10-02",
+      "trumpai": "Maisiagala"
+    },
     {
       "id": "kernave",
       "pavadinimas": "Kernavės piliakalnių trasa",
@@ -26,22 +32,44 @@
         "Daugiau informacijos: https://www.kernave.org"
       ],
       "taskai": [
-        { "pavadinimas": "Startas – automobilių aikštelė", "lat": 54.8857, "lng": 24.8530 },
-        { "pavadinimas": "Poilsio vieta", "pastaba": "Yra vanduo", "lat": 54.8921, "lng": 24.8402 }
+        {
+          "pavadinimas": "Startas – automobilių aikštelė",
+          "lat": 54.8857,
+          "lng": 24.853
+        },
+        {
+          "pavadinimas": "Poilsio vieta",
+          "pastaba": "Yra vanduo",
+          "lat": 54.8921,
+          "lng": 24.8402
+        }
       ],
       "failai": [
-        { "pavadinimas": "Trasa GPS formatu", "kelias": "failai/kernave.gpx", "pastaba": "Atidarykite su Strava, Komoot, Mapy ir pan." },
-        { "pavadinimas": "Trasos schema", "kelias": "failai/kernave-schema.svg" }
+        {
+          "pavadinimas": "Trasa GPS formatu",
+          "kelias": "failai/kernave.gpx",
+          "pastaba": "Atidarykite su Strava, Komoot, Mapy ir pan."
+        },
+        {
+          "pavadinimas": "Trasos schema",
+          "kelias": "failai/kernave-schema.svg"
+        }
       ],
       "kontaktai": [
-        { "vardas": "Organizatorius", "tel": "+370 600 00000", "pastaba": "Skambinkite iškilus problemų" }
+        {
+          "vardas": "Organizatorius",
+          "tel": "+370 600 00000",
+          "pastaba": "Skambinkite iškilus problemų"
+        }
       ]
     },
     {
       "id": "antra-trasa",
       "pavadinimas": "Antra trasa (pavyzdys be failų)",
       "trumpai": "Trumpas aprašymas, kuris matosi sąraše.",
-      "faktai": { "Ilgis": "5 km" },
+      "faktai": {
+        "Ilgis": "5 km"
+      },
       "aprasymas": "Čia gali būti ir paprastas tekstas viena eilute."
     }
   ]
