@@ -1,19 +1,22 @@
 'use strict';
 
-// Visa informacija imama is sio failo. Redaguokite tik ji ir aplanka "failai".
+// Visa informacija imama is sio failo (redaguojama per puslapi "＋ Nauja" / "✏️ Redaguoti" arba GitHub'e).
 const DUOMENYS = 'data/trasos.json';
 // Turi sutapti su CACHE pavadinimu sw.js faile.
 const CACHE = 'trasos-v1';
 // Rodoma puslapio apacioje - pagal ja matosi, ar telefone jau nauja versija.
-const VERSIJA = '3';
+const VERSIJA = '4';
 
 const turinys = document.getElementById('turinys');
 let duomenys = null;
 let klaida = null;
+let pranesimas = '';
+let paieskosZodis = '';
 
 const esc = (s) => String(s == null ? '' : s).replace(/[&<>"']/g, (c) => (
   { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]
 ));
+const dydis = (b) => (b >= 1048576 ? (b / 1048576).toFixed(1) + ' MB' : Math.max(1, Math.round(b / 1024)) + ' KB');
 
 // **parysktinta** ir https://nuorodos vienoje eiluteje
 function eilute(s) {
@@ -54,6 +57,114 @@ function tekstas(t) {
   return out.join('');
 }
 
+// ---- Paieska (nepaiso didziuju raidziu ir lietuvisku raidziu: "zalia" randa "žalia") ----
+const be = (s) => String(s == null ? '' : s).toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '');
+const beZymejimo = (s) => String(s).replace(/\*\*/g, '').replace(/^\s*(#{1,3}|[-•*])\s+/gm, '');
+
+function normalizuoti(chars) {
+  let norm = '';
+  const idx = [];
+  chars.forEach((c, i) => {
+    const n = be(c);
+    for (let k = 0; k < n.length; k++) idx.push(i);
+    norm += n;
+  });
+  return { norm, idx };
+}
+
+function zymeti(orig, zodziai) {
+  if (!zodziai.length) return esc(orig);
+  const chars = [...String(orig || '')];
+  const { norm, idx } = normalizuoti(chars);
+  const zym = new Array(chars.length).fill(false);
+  for (const z of zodziai) {
+    for (let p = norm.indexOf(z); p >= 0; p = norm.indexOf(z, p + z.length)) {
+      for (let k = p; k < p + z.length; k++) zym[idx[k]] = true;
+    }
+  }
+  let out = '';
+  let atv = false;
+  chars.forEach((c, i) => {
+    if (zym[i] !== atv) { out += zym[i] ? '<mark>' : '</mark>'; atv = zym[i]; }
+    out += esc(c);
+  });
+  return out + (atv ? '</mark>' : '');
+}
+
+function istrauka(orig, zodziai) {
+  const chars = [...orig];
+  const { norm, idx } = normalizuoti(chars);
+  let pos = -1;
+  for (const z of zodziai) {
+    const p = norm.indexOf(z);
+    if (p >= 0 && (pos < 0 || p < pos)) pos = p;
+  }
+  if (pos < 0) return '';
+  const c = idx[pos];
+  const nuo = Math.max(0, c - 40);
+  const iki = Math.min(chars.length, c + 110);
+  return (nuo > 0 ? '…' : '') + zymeti(chars.slice(nuo, iki).join(''), zodziai) + (iki < chars.length ? '…' : '');
+}
+
+function kitasTekstas(t) {
+  return [
+    beZymejimo([].concat(t.aprasymas || []).join('\n')),
+    Object.entries(t.faktai || {}).map(([k, v]) => k + ': ' + v).join(' · '),
+    (t.taskai || []).map((x) => [x.pavadinimas, x.pastaba].filter(Boolean).join(' ')).join(' · '),
+    (t.failai || []).map((f) => f.pavadinimas || '').join(' · '),
+    (t.kontaktai || []).map((k) => [k.vardas, k.pastaba].filter(Boolean).join(' ')).join(' · '),
+  ].filter(Boolean).join(' ').replace(/\s+/g, ' ');
+}
+
+function kortele(t, zodziai) {
+  const virsus = be([t.pavadinimas, t.trumpai, t.data].join(' '));
+  const kitas = kitasTekstas(t);
+  const visas = virsus + ' ' + be(kitas);
+  if (zodziai.length && !zodziai.every((z) => visas.includes(z))) return '';
+
+  const failu = (t.failai || []).length;
+  const meta = [t.data && '📅 ' + zymeti(t.data, zodziai), failu && '📎 ' + failu + ' fail.'].filter(Boolean);
+  const neVirsuje = zodziai.filter((z) => !virsus.includes(z));
+  const ist = neVirsuje.length ? istrauka(kitas, neVirsuje) : '';
+  return `<a class="kortele" href="#/trasa/${encodeURIComponent(t.id)}">
+    <h2>${zymeti(t.pavadinimas || t.id, zodziai)}</h2>
+    ${meta.length ? `<div class="metaduom">${meta.map((m) => `<span>${m}</span>`).join('')}</div>` : ''}
+    ${t.trumpai ? `<p>${zymeti(t.trumpai, zodziai)}</p>` : ''}
+    ${ist ? `<p class="istrauka">${ist}</p>` : ''}
+  </a>`;
+}
+
+function sarasoLangas() {
+  turinys.innerHTML = `
+    <div class="herojus"><img src="icons/logo.png" alt="AtvVilx" width="132" height="132"></div>
+    <div class="irankiai">
+      <input class="paieska" type="search" enterkeyhint="search" placeholder="Ieškoti trasų…" aria-label="Paieška" value="${esc(paieskosZodis)}">
+      <a class="mygtukas" href="#/nauja">＋ Nauja</a>
+    </div>
+    <div class="rezultatu-sk" id="rezultatu-sk"></div>
+    <div id="rezultatai"></div>`;
+  const laukas = turinys.querySelector('.paieska');
+  const rezultatai = document.getElementById('rezultatai');
+  const sk = document.getElementById('rezultatu-sk');
+  const piesti = () => {
+    const zodziai = be(paieskosZodis).split(/\s+/).filter(Boolean);
+    const trasos = duomenys.trasos || [];
+    const korteles = trasos.map((t) => kortele(t, zodziai)).filter(Boolean);
+    if (!trasos.length) {
+      rezultatai.innerHTML = '<p class="tuscia">Trasų dar nėra. Spauskite „＋ Nauja“.</p>';
+    } else if (!korteles.length) {
+      rezultatai.innerHTML = `<p class="tuscia">Pagal „${esc(paieskosZodis)}“ nieko nerasta.</p>`;
+    } else {
+      rezultatai.innerHTML = korteles.join('');
+    }
+    sk.textContent = zodziai.length ? `Rasta: ${korteles.length} iš ${trasos.length}` : '';
+  };
+  laukas.addEventListener('input', () => { paieskosZodis = laukas.value; piesti(); });
+  laukas.addEventListener('keydown', (e) => { if (e.key === 'Enter') laukas.blur(); });
+  piesti();
+}
+
+// ---- Trasos langas ----
 const pletinys = (kelias) => (String(kelias).split(/[?#]/)[0].split('.').pop() || '').toLowerCase();
 const NUOTRAUKOS = ['jpg', 'jpeg', 'png', 'gif', 'webp', 'svg', 'avif'];
 const IKONOS = {
@@ -73,25 +184,7 @@ function zemelapioUrl(x) {
     + `&bbox=${lng - d * 1.6},${lat - d},${lng + d * 1.6},${lat + d}&marker=${lat},${lng}`;
 }
 
-function sarasas() {
-  const trasos = duomenys.trasos || [];
-  if (!trasos.length) return '<p class="tuscia">Trasų dar nėra. Pridėkite jas faile data/trasos.json.</p>';
-  const paieska = trasos.length > 4
-    ? '<input class="paieska" type="search" placeholder="Ieškoti trasos…" aria-label="Ieškoti trasos">'
-    : '';
-  return paieska + trasos.map((t) => {
-    const failu = (t.failai || []).length;
-    const meta = [t.data && '📅 ' + esc(t.data), failu && '📎 ' + failu + ' fail.'].filter(Boolean);
-    const paieskai = [t.pavadinimas, t.trumpai, t.data].join(' ').toLowerCase();
-    return `<a class="kortele" href="#/trasa/${encodeURIComponent(t.id)}" data-paieska="${esc(paieskai)}">
-      <h2>${esc(t.pavadinimas || t.id)}</h2>
-      ${meta.length ? `<div class="metaduom">${meta.map((m) => `<span>${m}</span>`).join('')}</div>` : ''}
-      ${t.trumpai ? `<p>${esc(t.trumpai)}</p>` : ''}
-    </a>`;
-  }).join('');
-}
-
-function trasa(t, vienintele) {
+function trasa(t) {
   const taskai = geriTaskai(t);
   const failai = (t.failai || []).filter((f) => f && f.kelias);
   const nuotraukos = failai.filter((f) => NUOTRAUKOS.includes(pletinys(f.kelias)));
@@ -99,7 +192,9 @@ function trasa(t, vienintele) {
   const faktai = Object.entries(Object.assign(t.data ? { Data: t.data } : {}, t.faktai || {}));
   const h = [];
 
-  if (!vienintele) h.push('<a href="#/" class="atgal">← Visos trasos</a>');
+  h.push('<div class="virsutine-eilute"><a href="#/" class="atgal">← Visos trasos</a>'
+    + (Admin.prisijungta() ? `<a class="mygtukas antrinis mazas" href="#/redaguoti/${encodeURIComponent(t.id)}">✏️ Redaguoti</a>` : '')
+    + '</div>');
   h.push(`<h1>${esc(t.pavadinimas || t.id)}</h1>`);
   if (t.trumpai) h.push(`<p class="trumpai">${esc(t.trumpai)}</p>`);
 
@@ -189,8 +284,38 @@ async function dalintis() {
   }
 }
 
+// ---- Langu perjungimas ----
+function eitiI(hash) {
+  if (location.hash === hash || (hash === '#/' && !location.hash)) rodyti();
+  else location.hash = hash;
+}
+
+function poPrisijungimo(tekstas) {
+  pranesimas = tekstas;
+  history.replaceState(null, '', '#/');
+  antraste();
+  ikelti();
+}
+
+function poIssaugojimo(nauji, id, tekstas) {
+  duomenys = nauji;
+  klaida = null;
+  pranesimas = tekstas;
+  antraste();
+  eitiI(id ? '#/trasa/' + encodeURIComponent(id) : '#/');
+}
+
 function rodyti() {
-  if (klaida) {
+  const [tipas, id] = decodeURIComponent(location.hash.replace(/^#\/?/, '')).split('/');
+  const pavadinimas = (duomenys && duomenys.pavadinimas) || 'AtvVilx trasos';
+  document.title = pavadinimas;
+
+  if (tipas === 'nustatymai') {
+    Admin.rodytiNustatymus(turinys, poPrisijungimo);
+  } else if ((tipas === 'nauja' || tipas === 'redaguoti') && !Admin.prisijungta()) {
+    Admin.rodytiNustatymus(turinys, poPrisijungimo);
+    pranesimas = pranesimas || 'Norėdami kurti ar redaguoti trasas, pirmiausia įjunkite redagavimą šiame telefone.';
+  } else if (klaida && !duomenys) {
     const patarimas = klaida === 'nerastas'
       ? 'Serveryje nėra šio failo. Patikrinkite, ar įkeltas aplankas <code>data</code> (mažosiomis raidėmis) ir jame failas <code>trasos.json</code>.'
       : location.protocol === 'file:'
@@ -199,40 +324,57 @@ function rodyti() {
     turinys.innerHTML = `<div class="klaida"><strong>Nepavyko įkelti duomenų.</strong>
       <p>Failas <code>${DUOMENYS}</code>: ${klaida === 'nerastas' ? 'nerastas (404)' : esc(klaida)}</p>
       <p>${patarimas}</p></div>`;
+  } else if (!duomenys) {
+    turinys.innerHTML = '<p class="kraunama">Kraunama…</p>';
     return;
-  }
-  if (!duomenys) return;
-
-  const trasos = duomenys.trasos || [];
-  const [tipas, id] = decodeURIComponent(location.hash.replace(/^#\/?/, '')).split('/');
-  const vienintele = trasos.length === 1;
-  let t = null;
-  if (tipas === 'trasa' && id) t = trasos.find((x) => String(x.id) === id);
-  else if (vienintele) t = trasos[0];
-
-  if (tipas === 'trasa' && !t) {
-    turinys.innerHTML = '<a href="#/" class="atgal">← Visos trasos</a><p class="tuscia">Tokia trasa nerasta.</p>';
-  } else if (t) {
-    turinys.innerHTML = trasa(t, vienintele);
-    document.title = (t.pavadinimas || t.id) + ' – ' + (duomenys.pavadinimas || 'Trasos');
-    const off = turinys.querySelector('[data-veiksmas="offline"]');
-    if (off) off.addEventListener('click', () => issaugotiOffline(t, off));
-    turinys.querySelector('[data-veiksmas="dalintis"]').addEventListener('click', dalintis);
-  } else {
-    turinys.innerHTML = sarasas();
-    document.title = duomenys.pavadinimas || 'Trasos';
-    const p = turinys.querySelector('.paieska');
-    if (p) {
-      p.addEventListener('input', () => {
-        const q = p.value.trim().toLowerCase();
-        turinys.querySelectorAll('.kortele').forEach((k) => { k.hidden = !k.dataset.paieska.includes(q); });
-      });
+  } else if (tipas === 'nauja') {
+    Admin.rodytiForma(turinys, null, poIssaugojimo);
+    document.title = 'Nauja trasa – ' + pavadinimas;
+  } else if (tipas === 'trasa' || tipas === 'redaguoti') {
+    const t = (duomenys.trasos || []).find((x) => String(x.id) === id);
+    if (!t) {
+      turinys.innerHTML = '<a href="#/" class="atgal">← Visos trasos</a><p class="tuscia">Tokia trasa nerasta.</p>';
+    } else if (tipas === 'redaguoti') {
+      Admin.rodytiForma(turinys, t, poIssaugojimo);
+      document.title = 'Redaguoti – ' + (t.pavadinimas || t.id);
+    } else {
+      turinys.innerHTML = trasa(t);
+      document.title = (t.pavadinimas || t.id) + ' – ' + pavadinimas;
+      const off = turinys.querySelector('[data-veiksmas="offline"]');
+      if (off) off.addEventListener('click', () => issaugotiOffline(t, off));
+      turinys.querySelector('[data-veiksmas="dalintis"]').addEventListener('click', dalintis);
     }
+  } else {
+    sarasoLangas();
+  }
+
+  if (pranesimas) {
+    turinys.insertAdjacentHTML('afterbegin', `<div class="pranesimas">${esc(pranesimas)}</div>`);
+    pranesimas = '';
   }
   window.scrollTo(0, 0);
 }
 
+function antraste() {
+  document.getElementById('pavadinimas').textContent = (duomenys && duomenys.pavadinimas) || 'AtvVilx trasos';
+  document.getElementById('atnaujinta').textContent =
+    (duomenys && duomenys.atnaujinta ? 'Atnaujinta: ' + duomenys.atnaujinta + ' · ' : '') + 'v' + VERSIJA;
+  document.getElementById('redagavimas').textContent = Admin.prisijungta() ? '✓ Redagavimas' : '🔑 Redagavimas';
+}
+
 async function ikelti() {
+  // Redaguotojui - tiesiai is GitHub (matosi ka tik issaugoti pakeitimai), kitiems - is puslapio
+  if (Admin.prisijungta() && navigator.onLine) {
+    try {
+      duomenys = await Admin.skaityti();
+      klaida = null;
+      antraste();
+      rodyti();
+      return;
+    } catch (e) {
+      pranesimas = '⚠️ Redagavimas neveikia: ' + e.message;
+    }
+  }
   try {
     const r = await fetch(DUOMENYS, { cache: 'no-store' });
     if (r.status === 404) throw new Error('nerastas');
@@ -242,10 +384,7 @@ async function ikelti() {
   } catch (e) {
     klaida = e.message;
   }
-  if (duomenys) {
-    document.getElementById('pavadinimas').textContent = duomenys.pavadinimas || 'Trasos';
-  }
-  document.getElementById('atnaujinta').textContent = (duomenys && duomenys.atnaujinta ? 'Atnaujinta: ' + duomenys.atnaujinta + ' · ' : '') + 'v' + VERSIJA;
+  antraste();
   rodyti();
 }
 
@@ -281,7 +420,8 @@ function idiegimoInstrukcija() {
   if (/android/i.test(ua)) {
     return '<p><strong>Android:</strong> viršuje dešinėje spauskite naršyklės meniu <strong>⋮</strong> → '
       + '<strong>Įdiegti programą</strong> arba <strong>Pridėti prie pagrindinio ekrano</strong>.</p>'
-      + '<p>Jei tokio punkto nėra – atidarykite puslapį <strong>Chrome</strong> naršyklėje.</p>';
+      + '<p><strong>Xiaomi:</strong> jei nieko neatsiranda – telefono Nustatymai → Programos → Chrome → Kiti leidimai → '
+      + '<strong>Pagrindinio ekrano nuorodos → Leisti</strong>.</p>';
   }
   return '<p>Atidarykite šį puslapį telefone: Android – Chrome meniu <strong>⋮</strong> → <strong>Įdiegti programą</strong>; '
     + 'iPhone – Safari <strong>Bendrinti</strong> → <strong>Į pradžios ekraną</strong>.</p>';
@@ -310,4 +450,6 @@ idiegti.addEventListener('click', async () => {
 
 if ('serviceWorker' in navigator) navigator.serviceWorker.register('sw.js', { updateViaCache: 'none' });
 window.addEventListener('hashchange', rodyti);
+antraste();
+rodyti();
 ikelti();

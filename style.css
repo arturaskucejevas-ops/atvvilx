@@ -1,23 +1,30 @@
+/* AtvVilx spalvos: oranzine, juoda, misko zalia */
 :root {
-  --fonas: #f4f6f4;
+  --fonas: #f3f3f1;
   --kortele: #ffffff;
-  --tekstas: #1b2420;
-  --blankus: #5f6d66;
-  --linija: #dfe5e1;
-  --pagrindine: #1f6f4a;
-  --pagrindine-sviesi: #e3f1e9;
+  --tekstas: #17181a;
+  --blankus: #5e6166;
+  --linija: #e1e1dd;
+  --oranzine: #f47b20;
+  --nuoroda: #b9530a;
+  --sviesi: #fdeadb;
+  --zalia: #3e7b3a;
+  --zalia-sviesi: #e4efe2;
   --pavojus: #b3261e;
+  --virsus: #0b0b0b;
   --spindulys: 14px;
 }
 @media (prefers-color-scheme: dark) {
   :root {
-    --fonas: #111613;
-    --kortele: #1b221e;
-    --tekstas: #e6ece8;
-    --blankus: #9aa8a0;
-    --linija: #2c3631;
-    --pagrindine: #5cc28e;
-    --pagrindine-sviesi: #1d3328;
+    --fonas: #0f1011;
+    --kortele: #1a1b1d;
+    --tekstas: #ecebe8;
+    --blankus: #a2a39f;
+    --linija: #2e2f31;
+    --nuoroda: #ff9a4d;
+    --sviesi: #3a2414;
+    --zalia: #7cc274;
+    --zalia-sviesi: #1d2b1c;
   }
 }
 
@@ -31,40 +38,56 @@ body {
   font: 16px/1.5 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
   padding-bottom: env(safe-area-inset-bottom);
 }
-a { color: var(--pagrindine); }
+a { color: var(--nuoroda); }
+mark { background: #ffd8b5; color: inherit; border-radius: 3px; padding: 0 2px; }
+@media (prefers-color-scheme: dark) { mark { background: #7a3e0f; } }
 
 .virsus {
   position: sticky; top: 0; z-index: 10;
   display: flex; align-items: center; justify-content: space-between; gap: 8px;
-  padding: calc(10px + env(safe-area-inset-top)) 16px 10px;
-  background: var(--kortele);
-  border-bottom: 1px solid var(--linija);
+  padding: calc(8px + env(safe-area-inset-top)) 16px 8px;
+  background: var(--virsus); color: #fff;
+  border-bottom: 3px solid var(--oranzine);
 }
-.logo { display: flex; align-items: center; gap: 10px; color: var(--tekstas); text-decoration: none; font-weight: 700; font-size: 18px; }
+.logo { display: flex; align-items: center; gap: 10px; color: #fff; text-decoration: none; font-weight: 800; font-size: 19px; letter-spacing: .01em; }
+.logo img { border-radius: 50%; }
 .offline { background: var(--pavojus); color: #fff; font-size: 13px; padding: 3px 10px; border-radius: 99px; }
 
 main { max-width: 760px; margin: 0 auto; padding: 16px; }
-.kraunama, .tuscia { color: var(--blankus); text-align: center; padding: 40px 0; }
-.klaida { background: #fdecea; color: #6b1a14; border-radius: var(--spindulys); padding: 16px; }
+.kraunama, .tuscia { color: var(--blankus); text-align: center; padding: 32px 0; }
+.klaida { background: #fdecea; color: #6b1a14; border-radius: var(--spindulys); padding: 16px; margin-bottom: 14px; }
 .klaida code { word-break: break-all; }
+.pranesimas { background: var(--zalia-sviesi); color: var(--tekstas); border-left: 4px solid var(--zalia); border-radius: 10px; padding: 12px 14px; margin-bottom: 14px; }
 
+/* Pagrindinis langas */
+.herojus { text-align: center; padding: 6px 0 14px; }
+.herojus img { width: 132px; height: 132px; border-radius: 50%; box-shadow: 0 6px 24px rgba(0,0,0,.25); }
+.irankiai { display: flex; gap: 8px; margin-bottom: 8px; }
 .paieska {
-  width: 100%; font: inherit; padding: 12px 14px; margin-bottom: 12px;
-  border: 1px solid var(--linija); border-radius: var(--spindulys);
-  background: var(--kortele); color: var(--tekstas);
+  flex: 1; min-width: 0; font: inherit; padding: 12px 14px 12px 40px;
+  border: 1px solid var(--linija); border-radius: 99px;
+  background: var(--kortele) no-repeat 14px 50% / 18px
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23888' stroke-width='2.4' stroke-linecap='round'%3E%3Ccircle cx='11' cy='11' r='7'/%3E%3Cpath d='m20 20-3.5-3.5'/%3E%3C/svg%3E");
+  color: var(--tekstas);
 }
+.paieska:focus { outline: 2px solid var(--oranzine); outline-offset: 1px; }
+.rezultatu-sk { font-size: 14px; color: var(--blankus); margin: 4px 4px 10px; min-height: 1.5em; }
 
 .kortele {
   display: block; background: var(--kortele); border: 1px solid var(--linija);
-  border-radius: var(--spindulys); padding: 16px; margin-bottom: 12px;
+  border-left: 4px solid var(--oranzine);
+  border-radius: var(--spindulys); padding: 14px 16px; margin-bottom: 12px;
   color: inherit; text-decoration: none;
 }
-a.kortele:active { background: var(--pagrindine-sviesi); }
+a.kortele:active { background: var(--sviesi); }
 .kortele h2 { margin: 0 0 4px; font-size: 18px; }
 .kortele p { margin: 4px 0 0; color: var(--blankus); }
+.kortele .istrauka { font-size: 14px; color: var(--tekstas); background: var(--fonas); border-radius: 8px; padding: 6px 10px; margin-top: 8px; }
 .metaduom { font-size: 14px; color: var(--blankus); display: flex; flex-wrap: wrap; gap: 4px 14px; }
 
-.atgal { display: inline-block; margin-bottom: 8px; text-decoration: none; font-weight: 600; padding: 6px 0; }
+/* Trasos puslapis */
+.virsutine-eilute { display: flex; justify-content: space-between; align-items: center; gap: 8px; margin-bottom: 8px; }
+.atgal { display: inline-block; text-decoration: none; font-weight: 600; padding: 6px 0; }
 h1 { font-size: 24px; line-height: 1.25; margin: 0 0 6px; }
 .trumpai { color: var(--blankus); margin: 0 0 14px; font-size: 17px; }
 
@@ -72,22 +95,24 @@ h1 { font-size: 24px; line-height: 1.25; margin: 0 0 6px; }
 .mygtukas {
   display: inline-flex; align-items: center; justify-content: center; gap: 6px;
   min-height: 44px; padding: 10px 16px; border-radius: 99px; border: 0;
-  background: var(--pagrindine); color: #fff; font: inherit; font-weight: 600;
-  text-decoration: none; cursor: pointer;
+  background: var(--oranzine); color: #111; font: inherit; font-weight: 700;
+  text-decoration: none; cursor: pointer; white-space: nowrap;
 }
-@media (prefers-color-scheme: dark) { .mygtukas { color: #0d1a13; } }
-.mygtukas.antrinis { background: var(--pagrindine-sviesi); color: var(--pagrindine); }
+.mygtukas:disabled { opacity: .6; cursor: default; }
+.mygtukas.antrinis { background: var(--sviesi); color: var(--nuoroda); font-weight: 600; }
+.mygtukas.pavojingas { background: transparent; color: var(--pavojus); border: 1px solid currentColor; }
+.mygtukas.mazas { min-height: 36px; padding: 6px 12px; font-size: 14px; }
 
 section { background: var(--kortele); border: 1px solid var(--linija); border-radius: var(--spindulys); padding: 16px; margin-bottom: 14px; }
-section > h2 { font-size: 15px; text-transform: uppercase; letter-spacing: .04em; color: var(--blankus); margin: 0 0 10px; }
+section > h2 { font-size: 14px; text-transform: uppercase; letter-spacing: .05em; color: var(--zalia); margin: 0 0 10px; }
 section h3 { font-size: 17px; margin: 16px 0 6px; }
 section p { margin: 0 0 10px; }
 section ul { margin: 0 0 10px; padding-left: 22px; }
 
 .faktai { display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 10px; margin: 0; }
-.faktai div { background: var(--pagrindine-sviesi); border-radius: 10px; padding: 8px 12px; }
+.faktai div { background: var(--sviesi); border-radius: 10px; padding: 8px 12px; }
 .faktai dt { font-size: 13px; color: var(--blankus); }
-.faktai dd { margin: 0; font-weight: 600; }
+.faktai dd { margin: 0; font-weight: 700; }
 
 .zemelapis { width: 100%; height: 260px; border: 0; border-radius: 10px; display: block; margin-bottom: 10px; background: var(--linija); }
 
@@ -99,7 +124,7 @@ section ul { margin: 0 0 10px; padding-left: 22px; }
 .eilute .ikona { font-size: 24px; width: 32px; text-align: center; flex: none; }
 .eilute .vidus { flex: 1; min-width: 0; }
 .eilute .vardas, .eilute .smulkiai { display: block; }
-.eilute .vardas { font-weight: 600; color: var(--pagrindine); }
+.eilute .vardas { font-weight: 600; color: var(--nuoroda); }
 .eilute .smulkiai { font-size: 13px; color: var(--blankus); overflow-wrap: anywhere; }
 .eilute .rodykle { color: var(--blankus); flex: none; }
 
@@ -107,11 +132,35 @@ section ul { margin: 0 0 10px; padding-left: 22px; }
 .galerija a { display: block; border-radius: 10px; overflow: hidden; background: var(--linija); aspect-ratio: 4 / 3; }
 .galerija img { width: 100%; height: 100%; object-fit: cover; display: block; }
 
+/* Forma */
+.forma label { display: block; font-weight: 600; margin: 14px 0 4px; }
+.forma label:first-child { margin-top: 0; }
+.forma .pagalba { display: block; font-weight: 400; font-size: 13px; color: var(--blankus); }
+.forma input[type=text], .forma input[type=url], .forma input[type=password], .forma textarea {
+  width: 100%; font: inherit; padding: 10px 12px; border-radius: 10px;
+  border: 1px solid var(--linija); background: var(--fonas); color: var(--tekstas);
+}
+.forma textarea { resize: vertical; min-height: 80px; }
+.forma input:focus, .forma textarea:focus { outline: 2px solid var(--oranzine); outline-offset: 0; }
+.failu-sarasas { margin-top: 8px; }
+.failo-eilute { display: flex; align-items: center; gap: 8px; padding: 8px 0; border-top: 1px solid var(--linija); }
+.failo-eilute:first-child { border-top: 0; }
+.failo-eilute input[type=text] { flex: 1; min-width: 0; }
+.failo-eilute .dydis { font-size: 12px; color: var(--blankus); white-space: nowrap; }
+.failo-eilute.salinamas input[type=text] { text-decoration: line-through; opacity: .5; }
+.x { flex: none; width: 36px; height: 36px; border-radius: 50%; border: 1px solid var(--linija); background: var(--kortele); color: var(--tekstas); font-size: 16px; cursor: pointer; }
+.failu-mygtukas { position: relative; overflow: hidden; }
+.failu-mygtukas input { position: absolute; inset: 0; opacity: 0; cursor: pointer; }
+.formos-veiksmai { display: flex; flex-wrap: wrap; gap: 8px; justify-content: space-between; margin-top: 4px; }
+.eiga { font-size: 14px; color: var(--blankus); margin-top: 10px; min-height: 1.5em; }
+ol.zingsniai { padding-left: 22px; margin: 0 0 10px; }
+ol.zingsniai li { margin-bottom: 6px; }
+
+.apacia { max-width: 760px; margin: 0 auto; padding: 8px 16px 28px; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 10px; color: var(--blankus); font-size: 14px; }
+.apacios-mygtukai { display: flex; gap: 8px; flex-wrap: wrap; }
 .patarimas {
   flex-basis: 100%; background: var(--kortele); color: var(--tekstas);
   border: 1px solid var(--linija); border-radius: var(--spindulys); padding: 14px 16px; font-size: 15px;
 }
 .patarimas p { margin: 0 0 6px; }
 .patarimas p:last-child { margin: 0; }
-
-.apacia { max-width: 760px; margin: 0 auto; padding: 8px 16px 28px; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 10px; color: var(--blankus); font-size: 14px; }

@@ -1,16 +1,16 @@
 {
-  "name": "Trasos",
-  "short_name": "Trasos",
-  "description": "Trasų informacija ir failai",
+  "name": "AtvVilx trasos",
+  "short_name": "AtvVilx",
+  "description": "AtvVilx trasų informacija ir failai",
   "lang": "lt",
   "start_url": "./",
   "scope": "./",
   "display": "standalone",
-  "background_color": "#f4f6f4",
-  "theme_color": "#1f6f4a",
+  "background_color": "#0b0b0b",
+  "theme_color": "#0b0b0b",
   "icons": [
-    { "src": "icons/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any maskable" },
-    { "src": "icons/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any maskable" },
-    { "src": "icons/icon.svg", "sizes": "any", "type": "image/svg+xml" }
+    { "src": "icons/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "icons/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
+    { "src": "icons/icon-maskable-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
   ]
 }
