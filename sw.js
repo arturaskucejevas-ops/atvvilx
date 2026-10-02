@@ -1,13 +1,14 @@
 // Service worker: leidzia puslapiui ir issaugotiems failams veikti be interneto.
 // Pakeitus CACHE pavadinima, telefonuose issaugoti failai bus istrinti (ir app.js reikia pakeisti ta pati).
 const CACHE = 'trasos-v1';
-const VERSIJA = '4'; // pakeitus sw.js telefonas ji atnaujina automatiskai
+const VERSIJA = '5'; // pakeitus sw.js telefonas ji atnaujina automatiskai
 const PAGRINDAS = [
   './',
   'index.html',
   'style.css',
   'app.js',
   'admin.js',
+  'zemelapis.js',
   'manifest.webmanifest',
   'data/trasos.json',
   'icons/logo.png',
@@ -37,10 +38,24 @@ self.addEventListener('fetch', (e) => {
   const req = e.request;
   if (req.method !== 'GET') return;
   const url = new URL(req.url);
+  // Zemelapio biblioteka (Leaflet) - issaugom, kad trasos zemelapyje matytusi ir be rysio
+  if (url.hostname === 'cdnjs.cloudflare.com' && url.pathname.includes('/leaflet/')) {
+    e.respondWith(talpyklaPirma(req));
+    return;
+  }
   if (url.origin !== self.location.origin) return;
 
   e.respondWith(tinklasPirma(e));
 });
+
+async function talpyklaPirma(req) {
+  const c = await caches.open(CACHE);
+  const issaugota = await c.match(req);
+  if (issaugota) return issaugota;
+  const r = await fetch(req);
+  if (r.ok) c.put(req, r.clone());
+  return r;
+}
 
 // Kai yra rysys - visada naujausia versija is serverio (ir ji issaugoma).
 // Be rysio arba jei serveris neatsako per 5 s - paskutine issaugota versija.

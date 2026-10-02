@@ -5,7 +5,7 @@ const DUOMENYS = 'data/trasos.json';
 // Turi sutapti su CACHE pavadinimu sw.js faile.
 const CACHE = 'trasos-v1';
 // Rodoma puslapio apacioje - pagal ja matosi, ar telefone jau nauja versija.
-const VERSIJA = '4';
+const VERSIJA = '5';
 
 const turinys = document.getElementById('turinys');
 let duomenys = null;
@@ -116,11 +116,15 @@ function kitasTekstas(t) {
   ].filter(Boolean).join(' ').replace(/\s+/g, ' ');
 }
 
+function atitinka(t, zodziai) {
+  if (!zodziai.length) return true;
+  const visas = be([t.pavadinimas, t.trumpai, t.data].join(' ') + ' ' + kitasTekstas(t));
+  return zodziai.every((z) => visas.includes(z));
+}
+
 function kortele(t, zodziai) {
   const virsus = be([t.pavadinimas, t.trumpai, t.data].join(' '));
   const kitas = kitasTekstas(t);
-  const visas = virsus + ' ' + be(kitas);
-  if (zodziai.length && !zodziai.every((z) => visas.includes(z))) return '';
 
   const failu = (t.failai || []).length;
   const meta = [t.data && '📅 ' + zymeti(t.data, zodziai), failu && '📎 ' + failu + ' fail.'].filter(Boolean);
@@ -134,32 +138,68 @@ function kortele(t, zodziai) {
   </a>`;
 }
 
-function sarasoLangas() {
+// Pagrindinis langas: paieska + "Sarasas" arba "Zemelapis" (paieska veikia abiem atvejais)
+let aktyvusZemelapis = null;
+
+function sarasoLangas(rezimas) {
+  const zemelapis = rezimas === 'zemelapis';
   turinys.innerHTML = `
-    <div class="herojus"><img src="icons/logo.png" alt="AtvVilx" width="132" height="132"></div>
+    ${zemelapis ? '' : '<div class="herojus"><img src="icons/logo.png" alt="AtvVilx" width="132" height="132"></div>'}
     <div class="irankiai">
       <input class="paieska" type="search" enterkeyhint="search" placeholder="Ieškoti trasų…" aria-label="Paieška" value="${esc(paieskosZodis)}">
       <a class="mygtukas" href="#/nauja">＋ Nauja</a>
     </div>
+    <nav class="perjungiklis">
+      <a href="#/"${zemelapis ? '' : ' class="aktyvus" aria-current="page"'}>📋 Sąrašas</a>
+      <a href="#/zemelapis"${zemelapis ? ' class="aktyvus" aria-current="page"' : ''}>🗺️ Žemėlapis</a>
+    </nav>
     <div class="rezultatu-sk" id="rezultatu-sk"></div>
     <div id="rezultatai"></div>`;
   const laukas = turinys.querySelector('.paieska');
   const rezultatai = document.getElementById('rezultatai');
   const sk = document.getElementById('rezultatu-sk');
-  const piesti = () => {
-    const zodziai = be(paieskosZodis).split(/\s+/).filter(Boolean);
-    const trasos = duomenys.trasos || [];
-    const korteles = trasos.map((t) => kortele(t, zodziai)).filter(Boolean);
-    if (!trasos.length) {
-      rezultatai.innerHTML = '<p class="tuscia">Trasų dar nėra. Spauskite „＋ Nauja“.</p>';
-    } else if (!korteles.length) {
-      rezultatai.innerHTML = `<p class="tuscia">Pagal „${esc(paieskosZodis)}“ nieko nerasta.</p>`;
-    } else {
-      rezultatai.innerHTML = korteles.join('');
-    }
-    sk.textContent = zodziai.length ? `Rasta: ${korteles.length} iš ${trasos.length}` : '';
-  };
-  laukas.addEventListener('input', () => { paieskosZodis = laukas.value; piesti(); });
+  const trasos = duomenys.trasos || [];
+  const zodziai = () => be(paieskosZodis).split(/\s+/).filter(Boolean);
+
+  let piesti;
+  if (zemelapis) {
+    rezultatai.innerHTML = '<div class="zem-didelis"></div>';
+    const dezute = rezultatai.firstChild;
+    let z = null;
+    piesti = () => {
+      const rastos = trasos.filter((t) => atitinka(t, zodziai()));
+      sk.textContent = zodziai().length ? `Žemėlapyje: ${rastos.length} iš ${trasos.length}` : 'Paspauskite trasą – galėsite atsisiųsti GPX arba atidaryti aprašymą.';
+      if (z) z.atnaujinti(rastos);
+    };
+    Zemelapis.sukurti(dezute).then((sukurtas) => {
+      if (!dezute.isConnected) { sukurtas.sunaikinti(); return; }
+      z = sukurtas;
+      aktyvusZemelapis = sukurtas;
+      piesti();
+    }).catch((e) => {
+      dezute.innerHTML = `<p class="tuscia">${esc(e.message)}</p>`;
+    });
+  } else {
+    piesti = () => {
+      const zz = zodziai();
+      const korteles = trasos.map((t) => (atitinka(t, zz) ? kortele(t, zz) : '')).filter(Boolean);
+      if (!trasos.length) {
+        rezultatai.innerHTML = '<p class="tuscia">Trasų dar nėra. Spauskite „＋ Nauja“.</p>';
+      } else if (!korteles.length) {
+        rezultatai.innerHTML = `<p class="tuscia">Pagal „${esc(paieskosZodis)}“ nieko nerasta.</p>`;
+      } else {
+        rezultatai.innerHTML = korteles.join('');
+      }
+      sk.textContent = zz.length ? `Rasta: ${korteles.length} iš ${trasos.length}` : '';
+    };
+  }
+
+  let laikmatis = null;
+  laukas.addEventListener('input', () => {
+    paieskosZodis = laukas.value;
+    clearTimeout(laikmatis);
+    laikmatis = setTimeout(piesti, zemelapis ? 350 : 0);
+  });
   laukas.addEventListener('keydown', (e) => { if (e.key === 'Enter') laukas.blur(); });
   piesti();
 }
@@ -176,13 +216,6 @@ const href = (kelias) => (/^https?:\/\//i.test(kelias) ? kelias : encodeURI(keli
 
 const geriTaskai = (t) => (t.taskai || []).filter((x) => x && isFinite(parseFloat(x.lat)) && isFinite(parseFloat(x.lng)));
 const navigacija = (x) => `https://www.google.com/maps/dir/?api=1&destination=${parseFloat(x.lat)},${parseFloat(x.lng)}`;
-function zemelapioUrl(x) {
-  const lat = parseFloat(x.lat);
-  const lng = parseFloat(x.lng);
-  const d = 0.012;
-  return 'https://www.openstreetmap.org/export/embed.html?layer=mapnik'
-    + `&bbox=${lng - d * 1.6},${lat - d},${lng + d * 1.6},${lat + d}&marker=${lat},${lng}`;
-}
 
 function trasa(t) {
   const taskai = geriTaskai(t);
@@ -213,11 +246,8 @@ function trasa(t) {
 
   if (t.aprasymas) h.push(`<section><h2>Aprašymas</h2>${tekstas(t.aprasymas)}</section>`);
 
-  if (taskai.length) {
-    h.push('<section><h2>Vietos</h2>');
-    if (navigator.onLine) {
-      h.push(`<iframe class="zemelapis" loading="lazy" title="Žemėlapis" src="${zemelapioUrl(taskai[0])}"></iframe>`);
-    }
+  if (taskai.length || Zemelapis.gpxFailas(t)) {
+    h.push('<section><h2>Žemėlapis</h2><div class="zem-mazas" id="trasos-zemelapis"></div>');
     h.push(taskai.map((x) => `<a class="eilute" href="${navigacija(x)}" target="_blank" rel="noopener">
       <span class="ikona">📍</span>
       <span class="vidus"><span class="vardas">${esc(x.pavadinimas || 'Taškas')}</span>
@@ -309,6 +339,10 @@ function rodyti() {
   const [tipas, id] = decodeURIComponent(location.hash.replace(/^#\/?/, '')).split('/');
   const pavadinimas = (duomenys && duomenys.pavadinimas) || 'AtvVilx trasos';
   document.title = pavadinimas;
+  if (aktyvusZemelapis) {
+    aktyvusZemelapis.sunaikinti();
+    aktyvusZemelapis = null;
+  }
 
   if (tipas === 'nustatymai') {
     Admin.rodytiNustatymus(turinys, poPrisijungimo);
@@ -340,12 +374,22 @@ function rodyti() {
     } else {
       turinys.innerHTML = trasa(t);
       document.title = (t.pavadinimas || t.id) + ' – ' + pavadinimas;
+      const zemDezute = document.getElementById('trasos-zemelapis');
+      if (zemDezute) {
+        Zemelapis.sukurti(zemDezute, { vienas: true }).then((z) => {
+          if (!zemDezute.isConnected) { z.sunaikinti(); return; }
+          aktyvusZemelapis = z;
+          z.atnaujinti([t]);
+        }).catch((e) => {
+          zemDezute.innerHTML = `<p class="tuscia">${esc(e.message)}</p>`;
+        });
+      }
       const off = turinys.querySelector('[data-veiksmas="offline"]');
       if (off) off.addEventListener('click', () => issaugotiOffline(t, off));
       turinys.querySelector('[data-veiksmas="dalintis"]').addEventListener('click', dalintis);
     }
   } else {
-    sarasoLangas();
+    sarasoLangas(tipas);
   }
 
   if (pranesimas) {

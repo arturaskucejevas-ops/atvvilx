@@ -114,7 +114,29 @@ section ul { margin: 0 0 10px; padding-left: 22px; }
 .faktai dt { font-size: 13px; color: var(--blankus); }
 .faktai dd { margin: 0; font-weight: 700; }
 
-.zemelapis { width: 100%; height: 260px; border: 0; border-radius: 10px; display: block; margin-bottom: 10px; background: var(--linija); }
+/* Sarasas / Zemelapis perjungiklis */
+.perjungiklis { display: flex; gap: 4px; background: var(--kortele); border: 1px solid var(--linija); border-radius: 99px; padding: 4px; margin: 2px 0 4px; }
+.perjungiklis a { flex: 1; text-align: center; padding: 8px 10px; border-radius: 99px; text-decoration: none; color: var(--blankus); font-weight: 600; }
+.perjungiklis a.aktyvus { background: var(--virsus); color: #fff; }
+
+/* Zemelapiai */
+.zem-dezute { position: relative; overflow: hidden; border-radius: var(--spindulys); border: 1px solid var(--linija); background: var(--linija); }
+.zem-didelis { height: calc(100vh - 250px); height: calc(100dvh - 250px); min-height: 380px; }
+.zem-mazas { height: 300px; margin-bottom: 10px; border-radius: 10px; }
+.zem-zemelapis { position: absolute; inset: 0; }
+.zem-dezute .tuscia { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; padding: 16px; margin: 0; }
+.zem-busena {
+  position: absolute; left: 50%; bottom: 24px; transform: translateX(-50%); z-index: 1000;
+  background: rgba(11, 11, 11, .85); color: #fff; font-size: 13px; padding: 6px 12px; border-radius: 99px;
+  max-width: 92%; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; pointer-events: none;
+}
+.zem-mygtukai a { font-size: 17px; line-height: 30px !important; }
+.zem-langelis { font: 14px/1.45 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; min-width: 190px; color: #17181a; }
+.zem-langelis strong { display: block; font-size: 16px; margin-bottom: 4px; }
+.zem-langelio-mygtukai { display: flex; flex-direction: column; gap: 6px; margin-top: 10px; }
+.zem-langelis a.mygtukas { color: #111; }
+.zem-langelis a.mygtukas.antrinis { background: #fdeadb; color: #b9530a; }
+.leaflet-container { font-family: inherit; }
 
 .eilute {
   display: flex; align-items: center; gap: 12px; padding: 12px 0;

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<gpx version="1.1" creator="Trasos (pavyzdys)" xmlns="http://www.topografix.com/GPX/1/1">
+  <metadata><name>Antra trasa (pavyzdys)</name></metadata>
+  <wpt lat="54.6440" lon="24.9560"><name>Brasta</name></wpt>
+  <trk>
+    <name>Antra trasa</name>
+    <trkseg>
+      <trkpt lat="54.6370" lon="24.9340"/>
+      <trkpt lat="54.6405" lon="24.9420"/>
+      <trkpt lat="54.6440" lon="24.9560"/>
+      <trkpt lat="54.6490" lon="24.9640"/>
+      <trkpt lat="54.6550" lon="24.9610"/>
+      <trkpt lat="54.6580" lon="24.9500"/>
+      <trkpt lat="54.6540" lon="24.9390"/>
+      <trkpt lat="54.6470" lon="24.9330"/>
+    </trkseg>
+  </trk>
+</gpx>
