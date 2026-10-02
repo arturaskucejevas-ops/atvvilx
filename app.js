@@ -4,6 +4,8 @@
 const DUOMENYS = 'data/trasos.json';
 // Turi sutapti su CACHE pavadinimu sw.js faile.
 const CACHE = 'trasos-v1';
+// Rodoma puslapio apacioje - pagal ja matosi, ar telefone jau nauja versija.
+const VERSIJA = '3';
 
 const turinys = document.getElementById('turinys');
 let duomenys = null;
@@ -242,8 +244,8 @@ async function ikelti() {
   }
   if (duomenys) {
     document.getElementById('pavadinimas').textContent = duomenys.pavadinimas || 'Trasos';
-    if (duomenys.atnaujinta) document.getElementById('atnaujinta').textContent = 'Atnaujinta: ' + duomenys.atnaujinta;
   }
+  document.getElementById('atnaujinta').textContent = (duomenys && duomenys.atnaujinta ? 'Atnaujinta: ' + duomenys.atnaujinta + ' · ' : '') + 'v' + VERSIJA;
   rodyti();
 }
 
@@ -306,6 +308,6 @@ idiegti.addEventListener('click', async () => {
   if (!patarimas.hidden) patarimas.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
 });
 
-if ('serviceWorker' in navigator) navigator.serviceWorker.register('sw.js');
+if ('serviceWorker' in navigator) navigator.serviceWorker.register('sw.js', { updateViaCache: 'none' });
 window.addEventListener('hashchange', rodyti);
 ikelti();

@@ -1,6 +1,7 @@
 // Service worker: leidzia puslapiui ir issaugotiems failams veikti be interneto.
 // Pakeitus CACHE pavadinima, telefonuose issaugoti failai bus istrinti (ir app.js reikia pakeisti ta pati).
 const CACHE = 'trasos-v1';
+const VERSIJA = '3'; // pakeitus sw.js telefonas ji atnaujina automatiskai
 const PAGRINDAS = [
   './',
   'index.html',
@@ -32,40 +33,28 @@ self.addEventListener('fetch', (e) => {
   const url = new URL(req.url);
   if (url.origin !== self.location.origin) return;
 
-  if (url.pathname.endsWith('/data/trasos.json')) {
-    e.respondWith(tinklasPirma(req));
-  } else {
-    e.respondWith(talpyklaPirma(e));
-  }
+  e.respondWith(tinklasPirma(e));
 });
 
-// Duomenys: visada bandom gauti naujausius, be rysio - paskutinius issaugotus
-async function tinklasPirma(req) {
-  const c = await caches.open(CACHE);
-  try {
-    const r = await fetch(req);
-    if (r.status === 200) await c.put(req, r.clone());
-    return r;
-  } catch (err) {
-    const m = await c.match(req, { ignoreSearch: true });
-    if (m) return m;
-    throw err;
-  }
-}
-
-// Kiti failai: is karto rodom issaugota versija, fone atnaujinam
-async function talpyklaPirma(e) {
+// Kai yra rysys - visada naujausia versija is serverio (ir ji issaugoma).
+// Be rysio arba jei serveris neatsako per 5 s - paskutine issaugota versija.
+async function tinklasPirma(e) {
   const req = e.request;
   const c = await caches.open(CACHE);
-  const issaugota = await c.match(req, { ignoreSearch: true })
-    || (req.mode === 'navigate' ? await c.match('./') : undefined);
-  const is_tinklo = fetch(req).then((r) => {
+  const navigacija = req.mode === 'navigate';
+  const is_tinklo = fetch(req, navigacija ? undefined : { cache: 'no-cache' }).then((r) => {
     if (r.status === 200) c.put(req, r.clone());
     return r;
-  }).catch(() => issaugota);
-  if (issaugota) {
-    e.waitUntil(is_tinklo);
-    return issaugota;
-  }
-  return is_tinklo;
+  });
+  e.waitUntil(is_tinklo.catch(() => {}));
+
+  const laikas = new Promise((resolve) => setTimeout(resolve, 5000));
+  try {
+    const r = await Promise.race([is_tinklo, laikas]);
+    if (r) return r;
+  } catch (err) { /* nera rysio */ }
+
+  const issaugota = await c.match(req, { ignoreSearch: true })
+    || (navigacija ? await c.match('./') : undefined);
+  return issaugota || is_tinklo;
 }
