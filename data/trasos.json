@@ -76,7 +76,15 @@
       "faktai": {
         "Ilgis": "5 km"
       },
-      "aprasymas": "Čia gali būti ir paprastas tekstas viena eilute."
+      "aprasymas": [
+        "Čia gali būti ir paprastas tekstas viena eilute."
+      ],
+      "failai": [
+        {
+          "pavadinimas": "TECHNIKA 4 FINAL",
+          "kelias": "failai/antra-trasa/technika-4-final.gpx"
+        }
+      ]
     }
   ]
 }
