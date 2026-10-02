@@ -189,9 +189,14 @@ async function dalintis() {
 
 function rodyti() {
   if (klaida) {
+    const patarimas = klaida === 'nerastas'
+      ? 'Serveryje nėra šio failo. Patikrinkite, ar įkeltas aplankas <code>data</code> (mažosiomis raidėmis) ir jame failas <code>trasos.json</code>.'
+      : location.protocol === 'file:'
+        ? 'Puslapis atidarytas tiesiai iš disko – taip neveikia. Paleiskite paleisti-lokaliai.bat arba atidarykite interneto adresą.'
+        : 'Jei ką tik redagavote šį failą – greičiausiai trūksta kablelio ar kabutės. Patikrinkite jį svetainėje jsonlint.com.';
     turinys.innerHTML = `<div class="klaida"><strong>Nepavyko įkelti duomenų.</strong>
-      <p>Failas <code>${DUOMENYS}</code>: ${esc(klaida)}</p>
-      <p>Jei ką tik redagavote šį failą – greičiausiai trūksta kablelio ar kabutės. Patikrinkite jį svetainėje jsonlint.com.</p></div>`;
+      <p>Failas <code>${DUOMENYS}</code>: ${klaida === 'nerastas' ? 'nerastas (404)' : esc(klaida)}</p>
+      <p>${patarimas}</p></div>`;
     return;
   }
   if (!duomenys) return;
@@ -228,6 +233,7 @@ function rodyti() {
 async function ikelti() {
   try {
     const r = await fetch(DUOMENYS, { cache: 'no-store' });
+    if (r.status === 404) throw new Error('nerastas');
     if (!r.ok) throw new Error('serveris grąžino klaidą ' + r.status);
     duomenys = await r.json();
     klaida = null;
@@ -248,20 +254,56 @@ window.addEventListener('online', rysys);
 window.addEventListener('offline', rysys);
 rysys();
 
-// "Idiegti" mygtukas (Android / Chrome / Edge)
+// "Idiegti" mygtukas. Chrome/Edge Android'e parodo sistemos langa,
+// kitur (iPhone, Samsung Internet ir kt.) - instrukcija, kaip prideti ranka.
 let idiegimas = null;
 const idiegti = document.getElementById('idiegti');
+const patarimas = document.getElementById('idiegimo-patarimas');
+const jauIdiegta = () => matchMedia('(display-mode: standalone)').matches || navigator.standalone === true;
+idiegti.hidden = jauIdiegta();
+
+function idiegimoInstrukcija() {
+  const ua = navigator.userAgent;
+  const ios = /iphone|ipad|ipod/i.test(ua) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+  if (ios && /crios|fxios|edgios/i.test(ua)) {
+    return '<p><strong>iPhone:</strong> nukopijuokite adresą ir atidarykite jį <strong>Safari</strong> naršyklėje.</p>'
+      + '<p>Tada apačioje spauskite <strong>Bendrinti</strong> (kvadratėlis su rodykle ↑) → <strong>Į pradžios ekraną</strong> → <strong>Pridėti</strong>.</p>';
+  }
+  if (ios) {
+    return '<p><strong>iPhone:</strong> ekrano apačioje spauskite <strong>Bendrinti</strong> (kvadratėlis su rodykle ↑).</p>'
+      + '<p>Slinkite žemyn → <strong>Į pradžios ekraną</strong> (Add to Home Screen) → <strong>Pridėti</strong>.</p>';
+  }
+  if (/samsungbrowser/i.test(ua)) {
+    return '<p><strong>Samsung naršyklė:</strong> apačioje spauskite meniu <strong>≡</strong> → <strong>Pridėti puslapį prie</strong> → <strong>Pradžios ekranas</strong>.</p>';
+  }
+  if (/android/i.test(ua)) {
+    return '<p><strong>Android:</strong> viršuje dešinėje spauskite naršyklės meniu <strong>⋮</strong> → '
+      + '<strong>Įdiegti programą</strong> arba <strong>Pridėti prie pagrindinio ekrano</strong>.</p>'
+      + '<p>Jei tokio punkto nėra – atidarykite puslapį <strong>Chrome</strong> naršyklėje.</p>';
+  }
+  return '<p>Atidarykite šį puslapį telefone: Android – Chrome meniu <strong>⋮</strong> → <strong>Įdiegti programą</strong>; '
+    + 'iPhone – Safari <strong>Bendrinti</strong> → <strong>Į pradžios ekraną</strong>.</p>';
+}
+
 window.addEventListener('beforeinstallprompt', (e) => {
   e.preventDefault();
   idiegimas = e;
   idiegti.hidden = false;
 });
-idiegti.addEventListener('click', async () => {
-  if (!idiegimas) return;
-  idiegimas.prompt();
-  await idiegimas.userChoice;
-  idiegimas = null;
+window.addEventListener('appinstalled', () => {
   idiegti.hidden = true;
+  patarimas.hidden = true;
+});
+idiegti.addEventListener('click', async () => {
+  if (idiegimas) {
+    idiegimas.prompt();
+    const pasirinkimas = await idiegimas.userChoice;
+    idiegimas = null;
+    if (pasirinkimas.outcome === 'accepted') { idiegti.hidden = true; return; }
+  }
+  patarimas.innerHTML = idiegimoInstrukcija();
+  patarimas.hidden = !patarimas.hidden;
+  if (!patarimas.hidden) patarimas.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
 });
 
 if ('serviceWorker' in navigator) navigator.serviceWorker.register('sw.js');
