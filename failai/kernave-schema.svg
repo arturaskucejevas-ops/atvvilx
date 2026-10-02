@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600">
+  <rect width="800" height="600" fill="#eef4ee"/>
+  <path d="M0 470 C 200 420, 400 520, 800 440" fill="none" stroke="#7fb3d5" stroke-width="40"/>
+  <text x="620" y="500" font-family="sans-serif" font-size="24" fill="#3b7aa3">Neris</text>
+  <path d="M150 380 L 260 300 L 380 230 L 520 160 L 640 200 L 560 320 L 400 360 Z" fill="none" stroke="#c0392b" stroke-width="8" stroke-linejoin="round" stroke-dasharray="18 10"/>
+  <circle cx="150" cy="380" r="18" fill="#1f6f4a"/>
+  <text x="110" y="420" font-family="sans-serif" font-size="24" fill="#1f2a24">START / FINIŠAS</text>
+  <circle cx="380" cy="230" r="12" fill="#f39c12"/>
+  <text x="330" y="210" font-family="sans-serif" font-size="22" fill="#1f2a24">Poilsis</text>
+  <text x="560" y="140" font-family="sans-serif" font-size="22" fill="#1f2a24">Piliakalniai</text>
+  <text x="30" y="50" font-family="sans-serif" font-size="30" font-weight="bold" fill="#1f2a24">Trasos schema (pavyzdys)</text>
+</svg>
