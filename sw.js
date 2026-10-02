@@ -16,7 +16,10 @@ const PAGRINDAS = [
 ];
 
 self.addEventListener('install', (e) => {
-  e.waitUntil(caches.open(CACHE).then((c) => c.addAll(PAGRINDAS)).then(() => self.skipWaiting()));
+  // Kiekviena faila atskirai: jei kurio nors truksta serveryje, kiti vis tiek issaugomi
+  e.waitUntil(caches.open(CACHE)
+    .then((c) => Promise.all(PAGRINDAS.map((u) => c.add(u).catch(() => {}))))
+    .then(() => self.skipWaiting()));
 });
 
 self.addEventListener('activate', (e) => {
