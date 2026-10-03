@@ -3,6 +3,16 @@
   "atnaujinta": "2026-10-03",
   "trasos": [
     {
+      "id": "rudninku-poligonas",
+      "pavadinimas": "rudninku-poligonas",
+      "failai": [
+        {
+          "pavadinimas": "40g.rudninku-poligonas-wg1fjk(1)",
+          "kelias": "failai/rudninku-poligonas/40g-rudninku-poligonas-wg1fjk-1.gpx"
+        }
+      ]
+    },
+    {
       "id": "nemencine-ignalina-per-svencionelius-palei-begius",
       "pavadinimas": "Pabrade Ignalina per svencionelius (palei begius)",
       "failai": [
