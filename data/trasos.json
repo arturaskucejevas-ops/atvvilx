@@ -3,6 +3,16 @@
   "atnaujinta": "2026-10-03",
   "trasos": [
     {
+      "id": "vilnius-trakai",
+      "pavadinimas": "Vilnius Trakai",
+      "failai": [
+        {
+          "pavadinimas": "Trakai",
+          "kelias": "failai/vilnius-trakai/trakai.gpx"
+        }
+      ]
+    },
+    {
       "id": "salakas-svencioneliai-ignalina",
       "pavadinimas": "Salakas Svencioneliai Ignalina",
       "failai": [
