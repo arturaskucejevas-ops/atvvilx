@@ -3,6 +3,16 @@
   "atnaujinta": "2026-10-03",
   "trasos": [
     {
+      "id": "liepiskes-nemezis",
+      "pavadinimas": "Liepiskes - Nemezis",
+      "failai": [
+        {
+          "pavadinimas": "Liepiškės - Nemėžis",
+          "kelias": "failai/liepiskes-nemezis/liepiskes-nemezis.gpx"
+        }
+      ]
+    },
+    {
       "id": "mv-trasa",
       "pavadinimas": "MV trasa",
       "failai": [
