@@ -3,6 +3,16 @@
   "atnaujinta": "2026-10-03",
   "trasos": [
     {
+      "id": "vilnius-ignalina-per-svencionelius",
+      "pavadinimas": "Vilnius Ignalina per svencionelius",
+      "failai": [
+        {
+          "pavadinimas": "Ignalina-per-svencionelius",
+          "kelias": "failai/vilnius-ignalina-per-svencionelius/ignalina-per-svencionelius.gpx"
+        }
+      ]
+    },
+    {
       "id": "vm-moto-linija",
       "pavadinimas": "VM moto linija",
       "failai": [
