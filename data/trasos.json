@@ -3,6 +3,16 @@
   "atnaujinta": "2026-10-03",
   "trasos": [
     {
+      "id": "titanu-trasa",
+      "pavadinimas": "Titanu trasa",
+      "failai": [
+        {
+          "pavadinimas": "Titanai_turas251108",
+          "kelias": "failai/titanu-trasa/titanai_turas251108.gpx"
+        }
+      ]
+    },
+    {
       "id": "draguziai-balos-ir-purvas",
       "pavadinimas": "Draguziai,Varena, Valkininkai, Pirciupiai",
       "failai": [
