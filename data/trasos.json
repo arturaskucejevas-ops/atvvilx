@@ -3,6 +3,16 @@
   "atnaujinta": "2026-10-03",
   "trasos": [
     {
+      "id": "vm-moto-linija",
+      "pavadinimas": "VM moto linija",
+      "failai": [
+        {
+          "pavadinimas": "vmmoto linija",
+          "kelias": "failai/vm-moto-linija/vmmoto-linija.gpx"
+        }
+      ]
+    },
+    {
       "id": "dvarcionys-dubingiai",
       "pavadinimas": "Dvarcionys - Dubingiai",
       "failai": [
