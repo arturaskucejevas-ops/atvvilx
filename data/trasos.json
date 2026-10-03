@@ -3,6 +3,16 @@
   "atnaujinta": "2026-10-03",
   "trasos": [
     {
+      "id": "nauja-vilnia-visaginas-pasieniu",
+      "pavadinimas": "Nauja vilnia Visaginas Pasieniu",
+      "failai": [
+        {
+          "pavadinimas": "Naujoji Vilnia -Visaginas- pasieniu",
+          "kelias": "failai/nauja-vilnia-visaginas-pasieniu/naujoji-vilnia-visaginas-pasieniu.gpx"
+        }
+      ]
+    },
+    {
       "id": "mickuna-arvydai-kena",
       "pavadinimas": "Mickuna Arvydai Kena",
       "failai": [
