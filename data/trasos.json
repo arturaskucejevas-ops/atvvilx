@@ -3,6 +3,16 @@
   "atnaujinta": "2026-10-03",
   "trasos": [
     {
+      "id": "pabrades-kalneliai",
+      "pavadinimas": "Pabrades kalneliai",
+      "failai": [
+        {
+          "pavadinimas": "Pbr kalnai",
+          "kelias": "failai/pabrades-kalneliai/pbr-kalnai.gpx"
+        }
+      ]
+    },
+    {
       "id": "nemencine-pabrade-is-abieju-plento-pusiu",
       "pavadinimas": "Nemencine pabrade is abieju plento pusiu",
       "failai": [
