@@ -3,6 +3,17 @@
   "atnaujinta": "2026-10-03",
   "trasos": [
     {
+      "id": "nemencine-ignalina-labanoras-linkmenys-salos",
+      "pavadinimas": "Nemencine Ignalina (Labanoras Linkmenys Salos)",
+      "trumpai": "Suluzes tiltukas",
+      "failai": [
+        {
+          "pavadinimas": "2026-07-18_10-06_Sat i ignalina didziuoju ratu",
+          "kelias": "failai/nemencine-ignalina-labanoras-linkmenys-salos/2026-07-18_10-06_sat-i-ignalina-didziuoju-ratu.gpx"
+        }
+      ]
+    },
+    {
       "id": "ignalina-vilnius-per-pabrade-apie-30-km-asfalto",
       "pavadinimas": "Ignalina - Vilnius per Pabrade apie 30 km asfalto",
       "failai": [
