@@ -3,6 +3,16 @@
   "atnaujinta": "2026-10-03",
   "trasos": [
     {
+      "id": "motofox-challange",
+      "pavadinimas": "Motofox challange",
+      "failai": [
+        {
+          "pavadinimas": "MotoFoxChallange",
+          "kelias": "failai/motofox-challange/motofoxchallange.gpx"
+        }
+      ]
+    },
+    {
       "id": "motofox",
       "pavadinimas": "Motofox iki Varenos",
       "failai": [
