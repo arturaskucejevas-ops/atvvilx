@@ -3,6 +3,16 @@
   "atnaujinta": "2026-10-03",
   "trasos": [
     {
+      "id": "vievis-lentvaris",
+      "pavadinimas": "Vievis - Lentvaris",
+      "failai": [
+        {
+          "pavadinimas": "1-vievis_lentvaris-bicz4u(1)",
+          "kelias": "failai/vievis-lentvaris/1-vievis_lentvaris-bicz4u-1.gpx"
+        }
+      ]
+    },
+    {
       "id": "arvydai-pabrade-nemencine",
       "pavadinimas": "Arvydai Pabrade Nemencine",
       "failai": [
