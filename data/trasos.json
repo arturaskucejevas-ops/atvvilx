@@ -3,6 +3,16 @@
   "atnaujinta": "2026-10-03",
   "trasos": [
     {
+      "id": "aplink-linksmuosius-kalnelius",
+      "pavadinimas": "Aplink linksmuosius kalnelius",
+      "failai": [
+        {
+          "pavadinimas": "aplink linksmuosius kalniukus,",
+          "kelias": "failai/aplink-linksmuosius-kalnelius/aplink-linksmuosius-kalniukus.gpx"
+        }
+      ]
+    },
+    {
       "id": "vilnius-salcininkai",
       "pavadinimas": "Vilnius - Salcininkai",
       "failai": [
