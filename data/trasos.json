@@ -3,6 +3,16 @@
   "atnaujinta": "2026-10-03",
   "trasos": [
     {
+      "id": "nezinau-kas-tokio",
+      "pavadinimas": "Nezinau kas tokio",
+      "failai": [
+        {
+          "pavadinimas": "70 km daug balu geras",
+          "kelias": "failai/nezinau-kas-tokio/70-km-daug-balu-geras.gpx"
+        }
+      ]
+    },
+    {
       "id": "vievis-lentvaris",
       "pavadinimas": "Vievis - Lentvaris",
       "failai": [
