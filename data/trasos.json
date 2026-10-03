@@ -3,6 +3,16 @@
   "atnaujinta": "2026-10-03",
   "trasos": [
     {
+      "id": "ignalina-vilnius-per-pabrade-apie-30-km-asfalto",
+      "pavadinimas": "Ignalina - Vilnius per Pabrade apie 30 km asfalto",
+      "failai": [
+        {
+          "pavadinimas": "2025-05-03_11-46_Sat ignalina vilnius per pabrade apie 30 km asfalto",
+          "kelias": "failai/ignalina-vilnius-per-pabrade-apie-30-km-asfalto/2025-05-03_11-46_sat-ignalina-vilnius-per-pabrade-apie-30-km-asfalto.gpx"
+        }
+      ]
+    },
+    {
       "id": "nemencine-paluse",
       "pavadinimas": "Nemencine = Paluse",
       "failai": [
