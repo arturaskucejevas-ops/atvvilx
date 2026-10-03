@@ -3,6 +3,16 @@
   "atnaujinta": "2026-10-03",
   "trasos": [
     {
+      "id": "arvydai-pabrade-nemencine",
+      "pavadinimas": "Arvydai Pabrade Nemencine",
+      "failai": [
+        {
+          "pavadinimas": "2024-12-07_14-03_Sat arvydai pabrade nemencine",
+          "kelias": "failai/arvydai-pabrade-nemencine/2024-12-07_14-03_sat-arvydai-pabrade-nemencine.gpx"
+        }
+      ]
+    },
+    {
       "id": "arvydu-karjeras-mickunai-misko-keliukais",
       "pavadinimas": "Arvydu karjeras - Mickunai misko keliukais",
       "failai": [
