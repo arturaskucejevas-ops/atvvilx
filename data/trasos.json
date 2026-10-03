@@ -3,6 +3,16 @@
   "atnaujinta": "2026-10-03",
   "trasos": [
     {
+      "id": "nauja-vilnia-kena",
+      "pavadinimas": "Nauja Vilnia - Kena",
+      "failai": [
+        {
+          "pavadinimas": "2024-12-28_10-24 Nauja vilnia - Kena",
+          "kelias": "failai/nauja-vilnia-kena/2024-12-28_10-24-nauja-vilnia-kena.gpx"
+        }
+      ]
+    },
+    {
       "id": "vilnius-trakai",
       "pavadinimas": "Vilnius Trakai",
       "failai": [
