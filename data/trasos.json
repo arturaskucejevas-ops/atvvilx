@@ -3,6 +3,16 @@
   "atnaujinta": "2026-10-03",
   "trasos": [
     {
+      "id": "dvarcionys-dubingiai",
+      "pavadinimas": "Dvarcionys - Dubingiai",
+      "failai": [
+        {
+          "pavadinimas": "Dvarcionys - Dubingiai",
+          "kelias": "failai/dvarcionys-dubingiai/dvarcionys-dubingiai.gpx"
+        }
+      ]
+    },
+    {
       "id": "aplink-linksmuosius-kalnelius",
       "pavadinimas": "Aplink linksmuosius kalnelius",
       "failai": [
