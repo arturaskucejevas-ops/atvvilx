@@ -3,6 +3,16 @@
   "atnaujinta": "2026-10-03",
   "trasos": [
     {
+      "id": "balingrada",
+      "pavadinimas": "Balingrada",
+      "failai": [
+        {
+          "pavadinimas": "61.i-balingrada-04nvkl",
+          "kelias": "failai/balingrada/61-i-balingrada-04nvkl.gpx"
+        }
+      ]
+    },
+    {
       "id": "liepiskes-nemezis",
       "pavadinimas": "Liepiskes - Nemezis",
       "failai": [
