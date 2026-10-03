@@ -3,6 +3,16 @@
   "atnaujinta": "2026-10-03",
   "trasos": [
     {
+      "id": "mickuna-arvydai-kena",
+      "pavadinimas": "Mickuna Arvydai Kena",
+      "failai": [
+        {
+          "pavadinimas": "Mickunai Arvydai Kena",
+          "kelias": "failai/mickuna-arvydai-kena/mickunai-arvydai-kena.gpx"
+        }
+      ]
+    },
+    {
       "id": "vilnius-ignalina-per-svencionelius",
       "pavadinimas": "Vilnius Ignalina per svencionelius",
       "failai": [
