@@ -3,6 +3,16 @@
   "atnaujinta": "2026-10-03",
   "trasos": [
     {
+      "id": "draguziai-balos-ir-purvas",
+      "pavadinimas": "Draguziai, balos ir purvas",
+      "failai": [
+        {
+          "pavadinimas": "Darguziai_0315",
+          "kelias": "failai/draguziai-balos-ir-purvas/darguziai_0315.gpx"
+        }
+      ]
+    },
+    {
       "id": "varena-sen-varena-borteliai-spengla-paluknys-vilnius",
       "pavadinimas": "Varena - Sen Varena - Borteliai -Spengla - Paluknys - Vilnius",
       "failai": [
