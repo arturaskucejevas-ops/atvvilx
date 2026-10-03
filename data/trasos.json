@@ -3,6 +3,16 @@
   "atnaujinta": "2026-10-03",
   "trasos": [
     {
+      "id": "vilnius-trakai-2",
+      "pavadinimas": "Vilnius - Trakai",
+      "failai": [
+        {
+          "pavadinimas": "2025-08-09_10-58_Sat Vilnius Trakai",
+          "kelias": "failai/vilnius-trakai-2/2025-08-09_10-58_sat-vilnius-trakai.gpx"
+        }
+      ]
+    },
+    {
       "id": "ingalina-ginuciai-meironys",
       "pavadinimas": "Ingalina Ginuciai Meironys",
       "failai": [
