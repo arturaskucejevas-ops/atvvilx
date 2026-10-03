@@ -3,6 +3,16 @@
   "atnaujinta": "2026-10-03",
   "trasos": [
     {
+      "id": "vilnius-varena",
+      "pavadinimas": "Vilnius - Varena",
+      "failai": [
+        {
+          "pavadinimas": "2025-11-22_08-32_Sat Vilnius Varena",
+          "kelias": "failai/vilnius-varena/2025-11-22_08-32_sat-vilnius-varena.gpx"
+        }
+      ]
+    },
+    {
       "id": "varena-vilnius",
       "pavadinimas": "Varena - Vilnius",
       "failai": [
