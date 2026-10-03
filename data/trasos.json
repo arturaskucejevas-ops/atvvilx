@@ -3,6 +3,16 @@
   "atnaujinta": "2026-10-03",
   "trasos": [
     {
+      "id": "purvo-ruozas-prie-maceliu-uz-paluknes",
+      "pavadinimas": "Purvo ruozas prie Maceliu (Uz paluknes)",
+      "failai": [
+        {
+          "pavadinimas": "2026-09-06_Purvo ruozas prie Maceliu (Uz paluknes)12-20_Sun",
+          "kelias": "failai/purvo-ruozas-prie-maceliu-uz-paluknes/2026-09-06_purvo-ruozas-prie-maceliu-uz-paluknes-12-20_sun.gpx"
+        }
+      ]
+    },
+    {
       "id": "titanu-trasa",
       "pavadinimas": "Titanu trasa",
       "failai": [
