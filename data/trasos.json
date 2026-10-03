@@ -3,6 +3,16 @@
   "atnaujinta": "2026-10-03",
   "trasos": [
     {
+      "id": "tapeliu-ezeras-arvydu-karjeras-su-min-asfalto",
+      "pavadinimas": "Tapeliu ezeras - Arvydu karjeras su min. asfalto",
+      "failai": [
+        {
+          "pavadinimas": "2024-11-02_12-05_Sat Tapeliu ezeras - Arvydu karjeras su min. asfalto",
+          "kelias": "failai/tapeliu-ezeras-arvydu-karjeras-su-min-asfalto/2024-11-02_12-05_sat-tapeliu-ezeras-arvydu-karjeras-su-min-asfalto.gpx"
+        }
+      ]
+    },
+    {
       "id": "vilnius-varena",
       "pavadinimas": "Vilnius - Varena",
       "failai": [
