@@ -3,6 +3,16 @@
   "atnaujinta": "2026-10-03",
   "trasos": [
     {
+      "id": "salakas-svencioneliai-ignalina",
+      "pavadinimas": "Salakas Svencioneliai Ignalina",
+      "failai": [
+        {
+          "pavadinimas": "Salakas-Švenčioneliai-Ignalina",
+          "kelias": "failai/salakas-svencioneliai-ignalina/salakas-svencioneliai-ignalina.gpx"
+        }
+      ]
+    },
+    {
       "id": "pabrades-kalneliai",
       "pavadinimas": "Pabrades kalneliai",
       "failai": [
