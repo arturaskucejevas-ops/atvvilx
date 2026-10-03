@@ -3,6 +3,16 @@
   "atnaujinta": "2026-10-03",
   "trasos": [
     {
+      "id": "ingalina-ginuciai-meironys",
+      "pavadinimas": "Ingalina Ginuciai Meironys",
+      "failai": [
+        {
+          "pavadinimas": "2025-05-06_16-14 Ignalina - Ginuciai - Meironys - Ignalina",
+          "kelias": "failai/ingalina-ginuciai-meironys/2025-05-06_16-14-ignalina-ginuciai-meironys-ignalina.gpx"
+        }
+      ]
+    },
+    {
       "id": "nauja-vilnia-kena",
       "pavadinimas": "Nauja Vilnia - Kena",
       "failai": [
