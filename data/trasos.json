@@ -3,6 +3,16 @@
   "atnaujinta": "2026-10-03",
   "trasos": [
     {
+      "id": "palei-neri-arvydai-santaka-nemencine",
+      "pavadinimas": "Palei Neri - Arvydai Santaka Nemencine",
+      "failai": [
+        {
+          "pavadinimas": "Palei neri Arvydai Santaka Nemencinw",
+          "kelias": "failai/palei-neri-arvydai-santaka-nemencine/palei-neri-arvydai-santaka-nemencinw.gpx"
+        }
+      ]
+    },
+    {
       "id": "tapeliai-arvydai-mickunai-nauja-vilnia",
       "pavadinimas": "Tapeliai-Arvydai-Mickunai-Nauja vilnia",
       "failai": [
