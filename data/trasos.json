@@ -3,6 +3,16 @@
   "atnaujinta": "2026-10-03",
   "trasos": [
     {
+      "id": "varena-vilnius",
+      "pavadinimas": "Varena - Vilnius",
+      "failai": [
+        {
+          "pavadinimas": "2025-11-22_13-34_Sat varena vilnius",
+          "kelias": "failai/varena-vilnius/2025-11-22_13-34_sat-varena-vilnius.gpx"
+        }
+      ]
+    },
+    {
       "id": "purvo-ruozas-prie-maceliu-uz-paluknes",
       "pavadinimas": "Purvo ruozas prie Maceliu (Uz paluknes)",
       "failai": [
