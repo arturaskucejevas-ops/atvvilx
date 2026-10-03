@@ -3,6 +3,16 @@
   "atnaujinta": "2026-10-03",
   "trasos": [
     {
+      "id": "nemencine-ignalina-per-svencionelius-palei-begius",
+      "pavadinimas": "Nemencine Ignalina per svencionelius (palei begius)",
+      "failai": [
+        {
+          "pavadinimas": "Ignalina-per-svencionelius",
+          "kelias": "failai/nemencine-ignalina-per-svencionelius-palei-begius/ignalina-per-svencionelius.gpx"
+        }
+      ]
+    },
+    {
       "id": "nemencine-ignalina-labanoras-linkmenys-salos",
       "pavadinimas": "Nemencine Ignalina (Labanoras Linkmenys Salos)",
       "trumpai": "Suluzes tiltukas",
