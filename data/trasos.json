@@ -3,6 +3,16 @@
   "atnaujinta": "2026-10-03",
   "trasos": [
     {
+      "id": "nemencine-paluse",
+      "pavadinimas": "Nemencine = Paluse",
+      "failai": [
+        {
+          "pavadinimas": "Nemencine = Paluse",
+          "kelias": "failai/nemencine-paluse/nemencine-paluse.gpx"
+        }
+      ]
+    },
+    {
       "id": "nuo-nevezio-iki-rudaminos-karjero",
       "pavadinimas": "Nuo Nevėžio iki Rudaminos karjero",
       "failai": [
