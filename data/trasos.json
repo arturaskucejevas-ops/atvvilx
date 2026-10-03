@@ -3,6 +3,16 @@
   "atnaujinta": "2026-10-03",
   "trasos": [
     {
+      "id": "tapeliai-arvydai-mickunai-nauja-vilnia",
+      "pavadinimas": "Tapeliai-Arvydai-Mickunai-Nauja vilnia",
+      "failai": [
+        {
+          "pavadinimas": "Tapeliai-Arvydai-Mickunai-Nauja vilnia",
+          "kelias": "failai/tapeliai-arvydai-mickunai-nauja-vilnia/tapeliai-arvydai-mickunai-nauja-vilnia.gpx"
+        }
+      ]
+    },
+    {
       "id": "vilnius-valkininkai-aplink-poligona",
       "pavadinimas": "Vilnius valkininkai aplink poligona",
       "failai": [
