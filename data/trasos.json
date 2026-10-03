@@ -3,6 +3,16 @@
   "atnaujinta": "2026-10-03",
   "trasos": [
     {
+      "id": "nezinau-kas-tokio-2",
+      "pavadinimas": "Nezinau kas tokio",
+      "failai": [
+        {
+          "pavadinimas": "2025.10.05 ride",
+          "kelias": "failai/nezinau-kas-tokio-2/2025-10-05-ride.gpx"
+        }
+      ]
+    },
+    {
       "id": "nauja-vilnia-visaginas-pasieniu",
       "pavadinimas": "Nauja vilnia Visaginas Pasieniu",
       "failai": [
