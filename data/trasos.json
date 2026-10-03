@@ -3,6 +3,16 @@
   "atnaujinta": "2026-10-03",
   "trasos": [
     {
+      "id": "arvydu-karjeras-mickunai-misko-keliukais",
+      "pavadinimas": "Arvydu karjeras - Mickunai misko keliukais",
+      "failai": [
+        {
+          "pavadinimas": "2024-11-02_13-12_Sat Arvydu karjeras - Mickunai misko keliukais",
+          "kelias": "failai/arvydu-karjeras-mickunai-misko-keliukais/2024-11-02_13-12_sat-arvydu-karjeras-mickunai-misko-keliukais.gpx"
+        }
+      ]
+    },
+    {
       "id": "tapeliu-ezeras-arvydu-karjeras-su-min-asfalto",
       "pavadinimas": "Tapeliu ezeras - Arvydu karjeras su min. asfalto",
       "failai": [
