@@ -3,6 +3,16 @@
   "atnaujinta": "2026-10-03",
   "trasos": [
     {
+      "id": "motofox",
+      "pavadinimas": "Motofox",
+      "failai": [
+        {
+          "pavadinimas": "MCAdventure_B Motofox 2025 2 Etapas",
+          "kelias": "failai/motofox/mcadventure_b-motofox-2025-2-etapas.gpx"
+        }
+      ]
+    },
+    {
       "id": "balingrada",
       "pavadinimas": "Balingrada",
       "failai": [
