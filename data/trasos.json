@@ -3,6 +3,16 @@
   "atnaujinta": "2026-10-03",
   "trasos": [
     {
+      "id": "mv-trasa",
+      "pavadinimas": "MV trasa",
+      "failai": [
+        {
+          "pavadinimas": "300 MW Atomo",
+          "kelias": "failai/mv-trasa/300-mw-atomo.gpx"
+        }
+      ]
+    },
+    {
       "id": "nezinau-kas-tokio-2",
       "pavadinimas": "Nezinau kas tokio",
       "failai": [
