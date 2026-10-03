@@ -3,6 +3,16 @@
   "atnaujinta": "2026-10-03",
   "trasos": [
     {
+      "id": "varena-sen-varena-borteliai-spengla-paluknys-vilnius",
+      "pavadinimas": "Varena - Sen Varena - Borteliai -Spengla - Paluknys - Vilnius",
+      "failai": [
+        {
+          "pavadinimas": "Varena 2",
+          "kelias": "failai/varena-sen-varena-borteliai-spengla-paluknys-vilnius/varena-2.gpx"
+        }
+      ]
+    },
+    {
       "id": "rudninku-poligonas",
       "pavadinimas": "rudninku-poligonas",
       "failai": [
