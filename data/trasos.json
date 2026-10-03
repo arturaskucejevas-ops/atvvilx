@@ -3,6 +3,16 @@
   "atnaujinta": "2026-10-03",
   "trasos": [
     {
+      "id": "pabrade-nemencine-palei-begius-ezerus",
+      "pavadinimas": "Pabradė - Nemencine palei begius ezerus",
+      "failai": [
+        {
+          "pavadinimas": "Pabradė - Nemencine palei begius ezerus",
+          "kelias": "failai/pabrade-nemencine-palei-begius-ezerus/pabrade-nemencine-palei-begius-ezerus.gpx"
+        }
+      ]
+    },
+    {
       "id": "palei-neri-arvydai-santaka-nemencine",
       "pavadinimas": "Palei Neri - Arvydai Santaka Nemencine",
       "failai": [
