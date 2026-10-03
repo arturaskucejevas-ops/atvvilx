@@ -3,6 +3,16 @@
   "atnaujinta": "2026-10-03",
   "trasos": [
     {
+      "id": "nuo-nevezio-iki-rudaminos-karjero",
+      "pavadinimas": "Nuo Nevėžio iki Rudaminos karjero",
+      "failai": [
+        {
+          "pavadinimas": "Nuo Nevėžio iki Rudaminos karjero",
+          "kelias": "failai/nuo-nevezio-iki-rudaminos-karjero/nuo-nevezio-iki-rudaminos-karjero.gpx"
+        }
+      ]
+    },
+    {
       "id": "pabrade-nemencine-palei-begius-ezerus",
       "pavadinimas": "Pabradė - Nemencine palei begius ezerus",
       "failai": [
