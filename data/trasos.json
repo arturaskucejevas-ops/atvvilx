@@ -3,6 +3,16 @@
   "atnaujinta": "2026-10-03",
   "trasos": [
     {
+      "id": "vilnius-salcininkai",
+      "pavadinimas": "Vilnius - Salcininkai",
+      "failai": [
+        {
+          "pavadinimas": "2025-08-15_08-47_Fri vilnius salcininkai",
+          "kelias": "failai/vilnius-salcininkai/2025-08-15_08-47_fri-vilnius-salcininkai.gpx"
+        }
+      ]
+    },
+    {
       "id": "nezinau-kas-tokio",
       "pavadinimas": "Nezinau kas tokio",
       "failai": [
