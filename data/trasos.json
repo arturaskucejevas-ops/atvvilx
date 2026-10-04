@@ -1,6 +1,6 @@
 {
   "pavadinimas": "Mūsų trasos",
-  "atnaujinta": "2026-10-03",
+  "atnaujinta": "2026-10-04",
   "trasos": [
     {
       "id": "vilnius-trakai-2",
@@ -481,23 +481,6 @@
           "vardas": "Organizatorius",
           "tel": "+370 600 00000",
           "pastaba": "Skambinkite iškilus problemų"
-        }
-      ]
-    },
-    {
-      "id": "antra-trasa",
-      "pavadinimas": "Antra trasa (pavyzdys be failų)",
-      "trumpai": "Trumpas aprašymas, kuris matosi sąraše.",
-      "faktai": {
-        "Ilgis": "5 km"
-      },
-      "aprasymas": [
-        "Čia gali būti ir paprastas tekstas viena eilute."
-      ],
-      "failai": [
-        {
-          "pavadinimas": "TECHNIKA 2 FINAL",
-          "kelias": "failai/antra-trasa/technika-2-final.gpx"
         }
       ]
     }
