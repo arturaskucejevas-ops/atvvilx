@@ -428,61 +428,6 @@
           "kelias": "failai/testas/technika-2-final.gpx"
         }
       ]
-    },
-    {
-      "id": "kernave",
-      "pavadinimas": "Kernavės piliakalnių trasa",
-      "data": "2026-10-12, 10:00",
-      "trumpai": "PAVYZDYS – pakeiskite savo trasos informacija.",
-      "faktai": {
-        "Ilgis": "12 km",
-        "Trukmė": "3–4 val.",
-        "Sunkumas": "Vidutinė",
-        "Danga": "Miško takai, žvyras"
-      },
-      "aprasymas": [
-        "Startas prie Kernavės muziejaus automobilių aikštelės. Trasa eina pro piliakalnius, toliau Neries slėniu iki pėsčiųjų tilto ir grįžta atgal miško takais.",
-        "",
-        "## Ką pasiimti",
-        "- Vandens (bent 1 l)",
-        "- Patogią avalynę",
-        "- Įkrautą telefoną",
-        "",
-        "## Svarbu",
-        "**Ties 7 km** trasa kerta kelią – būkite atsargūs.",
-        "Daugiau informacijos: https://www.kernave.org"
-      ],
-      "taskai": [
-        {
-          "pavadinimas": "Startas – automobilių aikštelė",
-          "lat": 54.8857,
-          "lng": 24.853
-        },
-        {
-          "pavadinimas": "Poilsio vieta",
-          "pastaba": "Yra vanduo",
-          "lat": 54.8921,
-          "lng": 24.8402
-        }
-      ],
-      "failai": [
-        {
-          "pavadinimas": "Trasa GPS formatu",
-          "kelias": "failai/kernave.gpx",
-          "pastaba": "Atidarykite su Strava, Komoot, Mapy ir pan."
-        },
-        {
-          "pavadinimas": "Trasos schema",
-          "kelias": "failai/kernave-schema.svg"
-        }
-      ],
-      "kontaktai": [
-        {
-          "vardas": "Organizatorius",
-          "tel": "+370 600 00000",
-          "pastaba": "Skambinkite iškilus problemų"
-        }
-      ]
     }
   ]
 }
