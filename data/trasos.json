@@ -412,22 +412,6 @@
           "kelias": "failai/vilnius-valkininkai-aplink-poligona/vilnius-valkininkai-aplink-poligona-2026-03-29_10-06_sun.gpx"
         }
       ]
-    },
-    {
-      "id": "testas",
-      "pavadinimas": "Testas",
-      "data": "2026-10-02",
-      "trumpai": "Maisiagala",
-      "failai": [
-        {
-          "pavadinimas": "SENOJI TECHNIKA 7 ERZVLIKAS",
-          "kelias": "failai/testas/senoji-technika-7-erzvlikas.gpx"
-        },
-        {
-          "pavadinimas": "TECHNIKA 2 FINAL",
-          "kelias": "failai/testas/technika-2-final.gpx"
-        }
-      ]
     }
   ]
 }
