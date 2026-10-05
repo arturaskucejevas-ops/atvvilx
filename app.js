@@ -5,7 +5,7 @@ const DUOMENYS = 'data/trasos.json';
 // Turi sutapti su CACHE pavadinimu sw.js faile.
 const CACHE = 'trasos-v1';
 // Rodoma puslapio apacioje - pagal ja matosi, ar telefone jau nauja versija.
-const VERSIJA = '5';
+const VERSIJA = '7';
 
 const turinys = document.getElementById('turinys');
 let duomenys = null;
@@ -323,8 +323,22 @@ function eitiI(hash) {
 function poPrisijungimo(tekstas) {
   pranesimas = tekstas;
   history.replaceState(null, '', '#/');
+  Skyriai.pamirsti();
   antraste();
   ikelti();
+}
+
+const marsrutas = () => decodeURIComponent(location.hash.replace(/^#\/?/, '')).split('/');
+const SKYRIU_MARSRUTAI = ['nuolaidos', 'nariai'];
+
+function meniu(tipas) {
+  const aktyvus = SKYRIU_MARSRUTAI.includes(tipas) ? tipas : tipas === 'nustatymai' ? '' : 'trasos';
+  document.querySelectorAll('#meniu a').forEach((a) => {
+    const taip = a.dataset.skyrius === aktyvus;
+    a.classList.toggle('aktyvus', taip);
+    if (taip) a.setAttribute('aria-current', 'page');
+    else a.removeAttribute('aria-current');
+  });
 }
 
 function poIssaugojimo(nauji, id, tekstas) {
@@ -336,12 +350,18 @@ function poIssaugojimo(nauji, id, tekstas) {
 }
 
 function rodyti() {
-  const [tipas, id] = decodeURIComponent(location.hash.replace(/^#\/?/, '')).split('/');
+  const [tipas, id, veiksmas] = marsrutas();
   const pavadinimas = (duomenys && duomenys.pavadinimas) || 'AtvVilx trasos';
   document.title = pavadinimas;
   if (aktyvusZemelapis) {
     aktyvusZemelapis.sunaikinti();
     aktyvusZemelapis = null;
+  }
+  meniu(tipas);
+
+  if (SKYRIU_MARSRUTAI.includes(tipas)) {
+    Skyriai.rodyti(turinys, tipas, id, veiksmas);
+    return;
   }
 
   if (tipas === 'nustatymai') {
@@ -400,7 +420,6 @@ function rodyti() {
 }
 
 function antraste() {
-  document.getElementById('pavadinimas').textContent = (duomenys && duomenys.pavadinimas) || 'AtvVilx trasos';
   document.getElementById('atnaujinta').textContent =
     (duomenys && duomenys.atnaujinta ? 'Atnaujinta: ' + duomenys.atnaujinta + ' · ' : '') + 'v' + VERSIJA;
   document.getElementById('redagavimas').textContent = Admin.prisijungta() ? '✓ Redagavimas' : '🔑 Redagavimas';
@@ -413,7 +432,7 @@ async function ikelti() {
       duomenys = await Admin.skaityti();
       klaida = null;
       antraste();
-      rodyti();
+      if (!SKYRIU_MARSRUTAI.includes(marsrutas()[0])) rodyti();
       return;
     } catch (e) {
       pranesimas = '⚠️ Redagavimas neveikia: ' + e.message;
@@ -429,7 +448,8 @@ async function ikelti() {
     klaida = e.message;
   }
   antraste();
-  rodyti();
+  // nuolaidu / nariu langai savo duomenis krauna patys - neperpiesiam (kad nedingtu pradeta pildyti forma)
+  if (!SKYRIU_MARSRUTAI.includes(marsrutas()[0])) rodyti();
 }
 
 // Rysio indikatorius

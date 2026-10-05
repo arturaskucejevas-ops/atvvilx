@@ -32,8 +32,24 @@ const Admin = (() => {
     return { savininkas: m[1], repo: pirmas && !pirmas.includes('.') ? pirmas : m[0].toLowerCase() };
   }
 
+  // Patikrina, ar raktas gali RASYTI: sukuria nematoma bandomaji objekta (blob), kuris nekeicia jokiu failu
+  async function tikrintiRasyma(n) {
+    const r = await fetch(`https://api.github.com/repos/${encodeURIComponent(n.savininkas)}/${encodeURIComponent(n.repo)}/git/blobs`, {
+      method: 'POST',
+      cache: 'no-store',
+      headers: { Authorization: 'Bearer ' + n.raktas, Accept: 'application/vnd.github+json', 'Content-Type': 'application/json' },
+      body: JSON.stringify({ content: 'patikrinimas', encoding: 'utf-8' }),
+    });
+    if (r.status === 201) return;
+    if (r.status === 403 || r.status === 404) {
+      throw new Error(`Šis raktas gali tik skaityti, bet ne rašyti į „${n.repo}“. Sukurkite naują raktą: `
+        + `Repository access → Only select repositories → „${n.repo}“, Permissions → Contents → Read and write.`);
+    }
+    throw klaida(r.status);
+  }
+
   function klaidosTekstas(status) {
-    if (status === 401) return 'GitHub raktas neteisingas arba nebegalioja. Susikurkite naują (🔑 Redagavimas).';
+    if (status === 401) return 'GitHub raktas neteisingas arba nebegalioja (gal baigėsi jo galiojimo laikas?). Susikurkite naują raktą (🔑 Redagavimas).';
     if (status === 403) return 'Raktas neturi teisės rašyti. Kuriant raktą „Contents“ turi būti „Read and write“.';
     if (status === 404) return 'Nerasta saugykla. Patikrinkite vartotojo vardą, saugyklos pavadinimą ir ar raktui suteikta prieiga prie šios saugyklos.';
     if (status === 413 || status === 422) return 'GitHub atmetė failą (gal per didelis?).';
@@ -72,12 +88,15 @@ const Admin = (() => {
     return e;
   }
 
-  async function skaityti(n) {
-    const r = await api('data/trasos.json', undefined, n);
+  // leistiNera = true: jei failo dar nera (pvz. pirma nuolaida) - grazina null vietoj klaidos
+  async function skaitytiFaila(kelias, n, leistiNera) {
+    const r = await api(kelias, undefined, n);
+    if (r.status === 404 && leistiNera) return null;
     if (!r.ok) throw klaida(r.status);
     const j = await r.json();
     return { duomenys: JSON.parse(isBase64(j.content)), sha: j.sha };
   }
+  const skaityti = (n) => skaitytiFaila('data/trasos.json', n);
 
   async function rasyti(kelias, base64, zinute, sha) {
     const r = await api(kelias, {
@@ -100,15 +119,18 @@ const Admin = (() => {
     });
   }
 
-  // Visada skaitom naujausia trasos.json, pakeiciam ir irasom (jei kas nors pakeite tuo paciu metu - kartojam)
-  async function keistiDuomenis(keitimas, zinute) {
+  // Visada skaitom naujausia duomenu faila, pakeiciam ir irasom (jei kas nors pakeite tuo paciu metu - kartojam).
+  // Jei failo dar nera - sukuriamas naujas.
+  async function keistiDuomenis(keitimas, zinute, kelias = 'data/trasos.json', raktas = 'trasos') {
     for (let i = 0; i < 3; i++) {
-      const { duomenys, sha } = await skaityti();
-      if (!Array.isArray(duomenys.trasos)) duomenys.trasos = [];
+      const esamas = await skaitytiFaila(kelias, undefined, true);
+      const duomenys = esamas ? esamas.duomenys : {};
+      const sha = esamas ? esamas.sha : undefined;
+      if (!Array.isArray(duomenys[raktas])) duomenys[raktas] = [];
       keitimas(duomenys);
       duomenys.atnaujinta = new Date().toISOString().slice(0, 10);
       try {
-        await rasyti('data/trasos.json', iBase64(JSON.stringify(duomenys, null, 2) + '\n'), zinute, sha);
+        await rasyti(kelias, iBase64(JSON.stringify(duomenys, null, 2) + '\n'), zinute, sha);
         return duomenys;
       } catch (e) {
         if (e.status !== 409) throw e;
@@ -127,12 +149,12 @@ const Admin = (() => {
   }
 
   // Didelės telefono nuotraukos sumažinamos iki 2000 px (uzima ~10 kartu maziau vietos)
-  async function paruostiFaila(failas) {
+  async function paruostiFaila(failas, max = 2000) {
     const kaip_yra = { blob: failas, vardas: failas.name };
     if (!/^image\/(jpeg|webp)$/.test(failas.type) || !window.createImageBitmap) return kaip_yra;
     try {
       const img = await createImageBitmap(failas);
-      const k = Math.min(1, 2000 / Math.max(img.width, img.height));
+      const k = Math.min(1, max / Math.max(img.width, img.height));
       if (k === 1 && failas.size < 1.5e6) return kaip_yra;
       const c = document.createElement('canvas');
       c.width = Math.round(img.width * k);
@@ -146,8 +168,8 @@ const Admin = (() => {
     }
   }
 
-  async function ikeltiFaila(failas, aplankas) {
-    const { blob, vardas } = await paruostiFaila(failas);
+  async function ikeltiFaila(failas, aplankas, max) {
+    const { blob, vardas } = await paruostiFaila(failas, max);
     if (blob.size > MAX_DYDIS) throw new Error(`„${failas.name}“ per didelis (${dydis(blob.size)}). Daugiausia 25 MB.`);
     let kelias = `failai/${aplankas}/${failoVardas(vardas)}`;
     if ((await api(kelias)).ok) kelias = kelias.replace(/(\.[^./]+)?$/, '-' + Date.now().toString(36) + '$1');
@@ -250,22 +272,29 @@ const Admin = (() => {
         </div>
       </section>`;
 
-    const eiga = (t) => { el.querySelector('#n-eiga').textContent = t; };
+    const eiga = (t, blogai) => {
+      const x = el.querySelector('#n-eiga');
+      x.textContent = t;
+      x.classList.toggle('klaida', !!blogai);
+      if (blogai) x.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    };
     el.querySelector('#n-saugoti').addEventListener('click', async (e) => {
       const naujas = {
         savininkas: el.querySelector('#n-savininkas').value.trim(),
         repo: el.querySelector('#n-repo').value.trim(),
-        raktas: el.querySelector('#n-raktas').value.trim() || n.raktas || '',
+        raktas: el.querySelector('#n-raktas').value.replace(/\s+/g, '') || n.raktas || '',
       };
-      if (!naujas.savininkas || !naujas.repo || !naujas.raktas) { eiga('⚠️ Užpildykite visus laukus.'); return; }
+      if (!naujas.savininkas || !naujas.repo || !naujas.raktas) { eiga('⚠️ Užpildykite visus laukus.', true); return; }
       e.target.disabled = true;
       eiga('⏳ Tikrinama…');
       try {
         await skaityti(naujas);
+        eiga('⏳ Tikrinama, ar raktas gali rašyti…');
+        await tikrintiRasyma(naujas);
         if (!issaugotiNustatymus(naujas)) throw new Error('Naršyklė neleidžia išsaugoti nustatymų (gal įjungtas privatus režimas?).');
         poPakeitimo('✓ Redagavimas įjungtas. Dabar galite kurti naujas trasas.');
       } catch (err) {
-        eiga('❌ ' + err.message);
+        eiga('❌ ' + err.message, true);
         e.target.disabled = false;
       }
     });
@@ -318,7 +347,13 @@ const Admin = (() => {
       </div>`;
 
     const $ = (s) => el.querySelector(s);
-    const eiga = (tekstas) => { $('#f-eiga').textContent = tekstas; };
+    const eiga = (tekstas) => {
+      const x = $('#f-eiga');
+      x.textContent = tekstas;
+      const blogai = /^[❌⚠️]/u.test(tekstas);
+      x.classList.toggle('klaida', blogai);
+      if (blogai) x.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    };
     const sarasas = $('#f-failai');
 
     function piestiFailus() {
@@ -458,5 +493,12 @@ const Admin = (() => {
     skaityti: async () => (await skaityti()).duomenys,
     rodytiNustatymus,
     rodytiForma,
+    // naudojama skyriai.js (nuolaidos, nariai)
+    skaitytiFaila: (kelias) => skaitytiFaila(kelias, undefined, true),
+    keistiDuomenis,
+    ikeltiFaila,
+    trinti,
+    slug,
+    nustatytiLauka,
   };
 })();

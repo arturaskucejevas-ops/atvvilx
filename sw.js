@@ -1,7 +1,7 @@
 // Service worker: leidzia puslapiui ir issaugotiems failams veikti be interneto.
 // Pakeitus CACHE pavadinima, telefonuose issaugoti failai bus istrinti (ir app.js reikia pakeisti ta pati).
 const CACHE = 'trasos-v1';
-const VERSIJA = '5'; // pakeitus sw.js telefonas ji atnaujina automatiskai
+const VERSIJA = '7'; // pakeitus sw.js telefonas ji atnaujina automatiskai
 const PAGRINDAS = [
   './',
   'index.html',
@@ -9,6 +9,7 @@ const PAGRINDAS = [
   'app.js',
   'admin.js',
   'zemelapis.js',
+  'skyriai.js',
   'manifest.webmanifest',
   'data/trasos.json',
   'icons/logo.png',

@@ -17,8 +17,15 @@
 </head>
 <body>
 <header class="virsus">
-  <a href="#/" class="logo"><img src="icons/logo.png" alt="AtvVilx" width="44" height="44"><span id="pavadinimas">AtvVilx trasos</span></a>
-  <span id="offline" class="offline" hidden>Be ryšio</span>
+  <div class="virsus-eilute">
+    <a href="#/" class="logo"><img src="icons/logo.png" alt="AtvVilx" width="40" height="40"><span>AtvVilx</span></a>
+    <span id="offline" class="offline" hidden>Be ryšio</span>
+  </div>
+  <nav class="meniu" id="meniu" aria-label="Meniu">
+    <a href="#/" data-skyrius="trasos">🏁 Trasos</a>
+    <a href="#/nuolaidos" data-skyrius="nuolaidos">🏷️ Nuolaidos</a>
+    <a href="#/nariai" data-skyrius="nariai">👥 Nariai</a>
+  </nav>
 </header>
 <main id="turinys"><p class="kraunama">Kraunama…</p></main>
 <footer class="apacia">
@@ -31,6 +38,7 @@
 </footer>
 <script src="admin.js"></script>
 <script src="zemelapis.js"></script>
+<script src="skyriai.js"></script>
 <script src="app.js"></script>
 </body>
 </html>

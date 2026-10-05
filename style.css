@@ -43,12 +43,18 @@ mark { background: #ffd8b5; color: inherit; border-radius: 3px; padding: 0 2px; 
 @media (prefers-color-scheme: dark) { mark { background: #7a3e0f; } }
 
 .virsus {
-  position: sticky; top: 0; z-index: 10;
-  display: flex; align-items: center; justify-content: space-between; gap: 8px;
-  padding: calc(8px + env(safe-area-inset-top)) 16px 8px;
+  position: sticky; top: 0; z-index: 1100;
+  padding: env(safe-area-inset-top) 0 0;
   background: var(--virsus); color: #fff;
   border-bottom: 3px solid var(--oranzine);
 }
+.virsus-eilute { display: flex; align-items: center; justify-content: space-between; gap: 8px; padding: 6px 16px 2px; max-width: 760px; margin: 0 auto; }
+.meniu { display: flex; max-width: 760px; margin: 0 auto; padding: 0 8px; }
+.meniu a {
+  flex: 1; text-align: center; padding: 9px 4px 8px; color: #c9c9c9; text-decoration: none;
+  font-weight: 600; font-size: 15px; border-bottom: 3px solid transparent; margin-bottom: -3px; white-space: nowrap;
+}
+.meniu a.aktyvus { color: #fff; border-bottom-color: var(--oranzine); }
 .logo { display: flex; align-items: center; gap: 10px; color: #fff; text-decoration: none; font-weight: 800; font-size: 19px; letter-spacing: .01em; }
 .logo img { border-radius: 50%; }
 .offline { background: var(--pavojus); color: #fff; font-size: 13px; padding: 3px 10px; border-radius: 99px; }
@@ -121,7 +127,7 @@ section ul { margin: 0 0 10px; padding-left: 22px; }
 
 /* Zemelapiai */
 .zem-dezute { position: relative; overflow: hidden; border-radius: var(--spindulys); border: 1px solid var(--linija); background: var(--linija); }
-.zem-didelis { height: calc(100vh - 250px); height: calc(100dvh - 250px); min-height: 380px; }
+.zem-didelis { height: calc(100vh - 290px); height: calc(100dvh - 290px); min-height: 380px; }
 .zem-mazas { height: 300px; margin-bottom: 10px; border-radius: 10px; }
 .zem-zemelapis { position: absolute; inset: 0; }
 .zem-dezute .tuscia { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; padding: 16px; margin: 0; }
@@ -154,11 +160,45 @@ section ul { margin: 0 0 10px; padding-left: 22px; }
 .galerija a { display: block; border-radius: 10px; overflow: hidden; background: var(--linija); aspect-ratio: 4 / 3; }
 .galerija img { width: 100%; height: 100%; object-fit: cover; display: block; }
 
+/* Nuolaidos ir nariai */
+.skyriaus-antraste { font-size: 22px; margin: 2px 0 12px; }
+.kortele.su-paveiksliuku { display: flex; align-items: center; gap: 12px; }
+.kortele.su-paveiksliuku .vidus { flex: 1; min-width: 0; }
+.kortele.su-paveiksliuku .metaduom { margin-top: 4px; align-items: center; }
+.kortele.pasibaigusi { opacity: .55; border-left-color: var(--linija); }
+.kortele .rodykle { color: var(--blankus); flex: none; font-size: 20px; }
+.miniatiura { width: 56px; height: 56px; flex: none; border-radius: 12px; object-fit: cover; background: var(--linija); }
+.apvali { border-radius: 50% !important; }
+.inicialai { display: inline-flex; align-items: center; justify-content: center; color: #fff; font-weight: 800; font-size: 20px; }
+.nuolaidos-zenklas {
+  flex: none; max-width: 38%; background: var(--oranzine); color: #111; font-weight: 800; font-size: 17px;
+  line-height: 1.15; padding: 7px 10px; border-radius: 12px; text-align: center; overflow-wrap: anywhere;
+}
+.zenklas { display: inline-block; font-size: 12px; font-weight: 700; padding: 2px 9px; border-radius: 99px; background: var(--zalia-sviesi); color: var(--zalia); }
+.zenklas.pretendentas { background: var(--sviesi); color: var(--nuoroda); }
+.filtrai { display: flex; gap: 6px; overflow-x: auto; padding: 2px 0 6px; margin-bottom: 2px; scrollbar-width: none; }
+.filtrai::-webkit-scrollbar { display: none; }
+.filtrai button {
+  flex: none; border: 1px solid var(--linija); background: var(--kortele); color: var(--tekstas);
+  border-radius: 99px; padding: 7px 13px; font: inherit; font-size: 14px; font-weight: 600; cursor: pointer;
+}
+.filtrai button.aktyvus { background: var(--virsus); color: #fff; border-color: var(--virsus); }
+.profilis { text-align: center; margin: 4px 0 16px; }
+.profilis .didele { width: 150px; height: 150px; border-radius: 50%; object-fit: cover; display: flex; margin: 0 auto 12px; font-size: 52px; box-shadow: 0 6px 24px rgba(0,0,0,.2); }
+.profilis h1 { margin-bottom: 6px; }
+.imones-virsus { display: flex; align-items: center; gap: 14px; margin: 4px 0 14px; }
+.imones-virsus .logotipas { font-size: 30px; }
+.imones-virsus img, .imones-virsus .logotipas { width: 84px; height: 84px; flex: none; border-radius: 14px; object-fit: cover; background: var(--linija); }
+.imones-virsus h1 { margin-bottom: 6px; }
+.didelis-zenklas { display: inline-block; background: var(--oranzine); color: #111; font-weight: 800; font-size: 26px; line-height: 1.2; padding: 6px 14px; border-radius: 14px; margin: 0 0 12px; }
+.nuotraukos-laukas { display: flex; align-items: center; flex-wrap: wrap; gap: 10px; margin-bottom: 4px; }
+.nuotraukos-laukas img, .nuotraukos-laukas .inicialai { width: 88px; height: 88px; border-radius: 14px; object-fit: cover; font-size: 30px; }
+
 /* Forma */
 .forma label { display: block; font-weight: 600; margin: 14px 0 4px; }
 .forma label:first-child { margin-top: 0; }
 .forma .pagalba { display: block; font-weight: 400; font-size: 13px; color: var(--blankus); }
-.forma input[type=text], .forma input[type=url], .forma input[type=password], .forma textarea {
+.forma input[type=text], .forma input[type=url], .forma input[type=password], .forma input[type=tel], .forma input[type=email], .forma select, .forma textarea {
   width: 100%; font: inherit; padding: 10px 12px; border-radius: 10px;
   border: 1px solid var(--linija); background: var(--fonas); color: var(--tekstas);
 }
