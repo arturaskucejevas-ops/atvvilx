@@ -5,7 +5,7 @@ const DUOMENYS = 'data/trasos.json';
 // Turi sutapti su CACHE pavadinimu sw.js faile.
 const CACHE = 'trasos-v1';
 // Rodoma puslapio apacioje - pagal ja matosi, ar telefone jau nauja versija.
-const VERSIJA = '7';
+const VERSIJA = '8';
 
 const turinys = document.getElementById('turinys');
 let duomenys = null;

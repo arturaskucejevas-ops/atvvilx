@@ -49,6 +49,12 @@ mark { background: #ffd8b5; color: inherit; border-radius: 3px; padding: 0 2px; 
   border-bottom: 3px solid var(--oranzine);
 }
 .virsus-eilute { display: flex; align-items: center; justify-content: space-between; gap: 8px; padding: 6px 16px 2px; max-width: 760px; margin: 0 auto; }
+.virsus-desine { display: flex; align-items: center; gap: 8px; }
+.oficiali {
+  display: inline-flex; align-items: center; gap: 4px; padding: 6px 12px; border-radius: 99px;
+  border: 1px solid var(--oranzine); color: #fff; text-decoration: none; font-size: 14px; font-weight: 600; white-space: nowrap;
+}
+.oficiali:active { background: var(--oranzine); color: #111; }
 .meniu { display: flex; max-width: 760px; margin: 0 auto; padding: 0 8px; }
 .meniu a {
   flex: 1; text-align: center; padding: 9px 4px 8px; color: #c9c9c9; text-decoration: none;
